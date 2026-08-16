@@ -335,6 +335,28 @@
     countUp(statStars, stats.total_stars || 0);
   }
 
+  // A rate-limited/error GitHub response comes back as zeros — require real
+  // values so the card never shows a misleading 0.
+  function statsOk(s) {
+    return !!s && s.public_repos > 0 && s.followers > 0 && s.total_stars > 0;
+  }
+
+  var STATS_CACHE_KEY = 'gh_stats_v1';
+  function cacheStats(s) { try { localStorage.setItem(STATS_CACHE_KEY, JSON.stringify(s)); } catch (e) {} }
+  function getCachedStats() { try { return JSON.parse(localStorage.getItem(STATS_CACHE_KEY)); } catch (e) { return null; } }
+
+  // Show last-known-good values instantly so the card is never blank or zero.
+  var cachedStats = getCachedStats();
+  if (statsOk(cachedStats)) renderStats(cachedStats);
+
+  // Prefer fresh valid data (and cache it); otherwise keep the cached values;
+  // only fall back to a dash when there is nothing good to show.
+  function applyStats(stats) {
+    if (statsOk(stats)) { cacheStats(stats); renderStats(stats); }
+    else if (statsOk(cachedStats)) { renderStats(cachedStats); }
+    else { showStatsError(); }
+  }
+
   // Sum stargazers across all public repos, paginated (GitHub caps at 100/page).
   function sumStarsFromFallback(page, acc) {
     page = page || 1;
@@ -356,7 +378,7 @@
 
     return Promise.all([userPromise, sumStarsFromFallback()]).then(function (results) {
       var user = results[0] || {};
-      renderStats({
+      applyStats({
         public_repos: user.public_repos || 0,
         followers: user.followers || 0,
         total_stars: results[1] || 0,
@@ -365,6 +387,7 @@
   }
 
   function showStatsError() {
+    if (statsOk(cachedStats)) { renderStats(cachedStats); return; }
     if (statRepos) statRepos.textContent = '—';
     if (statFollowers) statFollowers.textContent = '—';
     if (statStars) statStars.textContent = '—';
@@ -379,8 +402,8 @@
         return r.json();
       })
       .then(function (stats) {
-        if (stats && typeof stats.public_repos === 'number') {
-          renderStats(stats);
+        if (statsOk(stats)) {
+          applyStats(stats);
         } else {
           return loadStatsFromFallback();
         }
