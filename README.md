@@ -11,10 +11,10 @@ Deployed as a static site on **Cloudflare Pages**.
 ## Screenshots
 
 ### Desktop
-![Desktop](assets/screenshots/desktop.png)
+![Desktop](assets/screenshots/home-desktop.png)
 
 ### Mobile
-![Mobile](assets/screenshots/mobile.png)
+![Mobile](assets/screenshots/home-mobile.png)
 
 ## Sections
 
