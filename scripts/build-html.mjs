@@ -38,6 +38,9 @@ function relTime(iso, now) {
   return 'updated ' + y + (y === 1 ? ' year ago' : ' years ago');
 }
 
+const ICON_BRANCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>';
+const ICON_STAR = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+
 function figures(profile) {
   const items = [
     { value: compact(profile.publicRepos || 0), label: 'Public repos' },
@@ -45,42 +48,33 @@ function figures(profile) {
     { value: commas(profile.contributionsLastYear || 0), label: 'Contributions' },
   ];
   return items.map((it) =>
-    '<div class="figure-item"><span class="figure-value">' + esc(it.value) +
-    '</span><span class="figure-label">' + esc(it.label) + '</span></div>'
+    '<div class="about-fig"><b>' + esc(it.value) + '</b><span>' + esc(it.label) + '</span></div>'
   ).join('\n            ');
 }
 
-function workCards(featured, now) {
-  return featured.map((f) => {
-    const meta = '★ ' + compact(f.stars || 0) + ' · ' + relTime(f.pushedAt, now);
-    return (
-      '<a class="card elev-sm" href="' + esc(f.url) + '">\n' +
-      '            <span class="card-kicker">' + esc((f.tech || []).join(' · ')) + '</span>\n' +
-      '            <span class="card-title">' + esc(f.name) + '</span>\n' +
-      '            <p class="card-body">' + esc(f.blurb || '') + '</p>\n' +
-      '            <span class="card-meta">' + esc(meta) + '</span>\n' +
-      '          </a>'
-    );
-  }).join('\n          ');
+function projects(featured, now) {
+  return featured.map((f) => (
+    '<a class="proj-card" href="' + esc(f.url) + '">\n' +
+    '          <div class="proj-top">' + ICON_BRANCH +
+    '<span class="proj-stars">' + ICON_STAR + ' ' + compact(f.stars || 0) + '</span></div>\n' +
+    '          <div class="proj-body">\n' +
+    '            <span class="proj-kicker">' + esc((f.tech || []).join(' · ')) + '</span>\n' +
+    '            <span class="proj-title">' + esc(f.name) + '</span>\n' +
+    '            <p class="proj-desc">' + esc(f.blurb || '') + '</p>\n' +
+    '            <span class="proj-meta">' + esc(relTime(f.pushedAt, now)) + '</span>\n' +
+    '          </div>\n' +
+    '        </a>'
+  )).join('\n        ');
 }
 
 function posts(list) {
-  return list.map((p) =>
-    '<a class="post-row" href="' + esc(p.url) + '">\n' +
-    '            <span class="post-date">' + esc(fmtDate(p.publishedAt)) + '</span>\n' +
-    '            <span class="post-title">' + esc(p.title) + '</span>\n' +
-    '            <span class="post-read">' + esc(p.readingMinutes || 1) + ' min</span>\n' +
-    '          </a>'
-  ).join('\n          ');
-}
-
-function activityCells(weeks) {
-  const max = Math.max(1, ...weeks);
-  return weeks.map((w) => {
-    let level = 0;
-    if (w > 0) level = w <= max / 3 ? 1 : (w <= (2 * max) / 3 ? 2 : 3);
-    return '<span class="act-cell l' + level + '" title="' + w + ' contributions"></span>';
-  }).join('\n            ');
+  return list.map((p) => (
+    '<a class="blog-card" href="' + esc(p.url) + '">\n' +
+    '          <span class="blog-date">' + esc(fmtDate(p.publishedAt)) + '</span>\n' +
+    '          <span class="blog-title">' + esc(p.title) + '</span>\n' +
+    '          <span class="blog-read">' + esc(p.readingMinutes || 1) + ' min read</span>\n' +
+    '        </a>'
+  )).join('\n        ');
 }
 
 async function main() {
@@ -91,20 +85,13 @@ async function main() {
 
   const now = Date.now();
   const profile = data.profile || {};
-  const weeks = Array.isArray(data.weeks) ? data.weeks : [];
-
-  const caption =
-    '<span>Last ' + weeks.length + ' weeks</span>' +
-    '<span>' + commas(profile.contributionsLastYear || 0) + ' contributions</span>';
 
   const html = tpl
     .replace('<!--FIGURES-->', figures(profile))
-    .replace('<!--REPO_COUNT-->', esc(profile.publicRepos || 0))
-    .replace('<!--WORK_CARDS-->', workCards(data.featured || [], now))
+    .replace(/<!--REPO_COUNT-->/g, esc(profile.publicRepos || 0))
+    .replace('<!--PROJECTS-->', projects(data.featured || [], now))
     .replace('<!--POSTS-->', posts(data.posts || []))
-    .replace('<!--ACTIVITY_CELLS-->', activityCells(weeks))
-    .replace('<!--ACTIVITY_CAPTION-->', caption)
-    .replace('<!--YEAR-->', String(new Date(now).getUTCFullYear()));
+    .replace(/<!--YEAR-->/g, String(new Date(now).getUTCFullYear()));
 
   await writeFile(join(ROOT, 'index.html'), html);
   console.log('index.html built.');

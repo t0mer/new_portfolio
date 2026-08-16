@@ -4,11 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tomer Klein — self-hosted IoT &amp; automation tools</title>
+  <title>Tomer Klein — C#/Python Developer &amp; IoT Innovator</title>
   <meta name="description"
-    content="C#/Python developer in Raanana, Israel. Self-hosted IoT, Home Assistant integrations and security tooling — most of it open source, all of it in production.">
+    content="Tomer Klein — C#/Python developer in Raanana, Israel. Self-hosted IoT, Home Assistant integrations and security tooling, most of it open source.">
 
-  <!-- Google tag (gtag.js) — async, non-blocking -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TDVVS33XNG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -17,138 +16,172 @@
     gtag('config', 'G-TDVVS33XNG');
   </script>
 
-  <link rel="preload" href="assets/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/broadsheet.css">
+  <link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/devis.css">
 </head>
 
 <body>
-  <div class="wrap">
-    <header class="nav">
-      <a class="nav-brand" href="#top">Tomer Klein</a>
-      <nav class="nav-links" aria-label="Primary">
-        <a class="nav-link" href="#work">Work</a>
-        <a class="nav-link" href="#stack">Stack</a>
-        <a class="nav-link" href="#writing">Writing</a>
-        <a class="nav-link" href="#contact">Contact</a>
-      </nav>
-    </header>
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
 
-    <main id="top">
-      <!-- ── Hero ───────────────────────────────────────────────────────── -->
-      <section class="hero">
-        <div class="hero-left">
-          <p class="hero-kicker">C#/Python developer · Raanana, Israel</p>
-          <h1>I build self-hosted IoT and automation tools that people actually run.</h1>
-          <p class="hero-sub">Docker containers, Home Assistant integrations and security tooling at MSD Animal
-            Health Technology Labs — most of it open source, <em>all of it in production somewhere.</em></p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#work">Browse the projects</a>
-            <a class="btn btn-secondary" href="#writing">Read the blog</a>
-          </div>
-          <div class="hero-figures">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-avatar"><img src="assets/portrait.jpg" width="180" height="180" alt="Tomer Klein"></div>
+    <nav class="sidebar-nav" aria-label="Primary">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="sidebar-hire" href="mailto:tomer.klein@gmail.com">Hire Me</a>
+    <div class="sidebar-foot">© <!--YEAR--> Tomer Klein</div>
+  </aside>
+
+  <main class="main">
+    <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+    <section class="hero" id="home">
+      <h1 class="hero-hi">Hi, I'm <span class="accent">Tomer Klein</span></h1>
+      <p class="hero-sub">A C#/Python developer building self-hosted IoT, Home Assistant integrations and
+        security tooling — clean code, real deployments, most of it open source.</p>
+      <div class="hero-socials">
+        <a class="social-btn" href="https://github.com/t0mer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+        <a class="social-btn" href="https://www.linkedin.com/in/tomer-klein-4bb8ab24/" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a class="social-btn" href="https://medium.com/@tomer.klein" aria-label="Medium">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── About ────────────────────────────────────────────────────────── -->
+    <section class="section about" id="about">
+      <div class="sec-head"><span class="sec-watermark">About Me</span><span class="sec-label">About Me</span></div>
+      <div class="about-grid">
+        <figure class="about-photo"><img src="assets/portrait.jpg" width="460" height="460" alt="Tomer Klein"></figure>
+        <div>
+          <h3>Hi There! I'm Tomer Klein</h3>
+          <div class="about-role">C#/Python Developer · IoT Innovator</div>
+          <p class="about-desc">I build and self-host the tools I want to use — Docker containers, Home Assistant
+            integrations and security tooling at MSD Animal Health Technology Labs. Most of it is open source, and
+            all of it runs in production somewhere.</p>
+          <dl class="about-details">
+            <div><dt>Location</dt><dd>Raanana, Israel</dd></div>
+            <div><dt>Company</dt><dd>MSD Animal Health</dd></div>
+            <div><dt>Email</dt><dd>tomer.klein@gmail.com</dd></div>
+            <div><dt>Languages</dt><dd>English, Hebrew</dd></div>
+            <div><dt>Focus</dt><dd>IoT · Automation · Security</dd></div>
+            <div><dt>Blog</dt><dd>techblog.co.il</dd></div>
+          </dl>
+          <div class="about-figs">
             <!--FIGURES-->
           </div>
+          <a class="btn btn-gold" href="mailto:tomer.klein@gmail.com">Get in touch</a>
         </div>
-        <figure class="hero-portrait halftone">
-          <img src="assets/portrait.jpg" width="460" height="460"
-            alt="Portrait of Tomer Klein">
-          <figcaption>One image, one origin — self-hosted, no cross-origin avatar.</figcaption>
-        </figure>
-      </section>
+      </div>
+    </section>
 
-      <!-- ── Selected work ──────────────────────────────────────────────── -->
-      <section id="work" class="work">
-        <div class="sec-head">
-          <div>
-            <h6 class="sec-index">01 — Selected work</h6>
-            <h2 class="sec-title">Things I maintain</h2>
-          </div>
-          <a class="sec-link" href="https://github.com/t0mer?tab=repositories">All <!--REPO_COUNT--> repositories →</a>
+    <!-- ── What I do ────────────────────────────────────────────────────── -->
+    <section class="section services">
+      <div class="sec-head"><span class="sec-watermark">Services</span><span class="sec-label">What I do</span></div>
+      <div class="svc-grid">
+        <div class="svc-card">
+          <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <h4>Docker &amp; Containers</h4>
+          <p>Packaging tools and services as clean, self-hosted containers that just run.</p>
         </div>
-        <div class="work-grid">
-          <!--WORK_CARDS-->
+        <div class="svc-card">
+          <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <h4>IoT &amp; Home Automation</h4>
+          <p>Home Assistant integrations, MQTT, ESP/Arduino and LoRa devices that talk to each other.</p>
         </div>
-      </section>
+        <div class="svc-card">
+          <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h4>Security &amp; DevOps</h4>
+          <p>Zero Trust, firewalls, SIEM/DLP and hardened pipelines — security built in, not bolted on.</p>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h4>Web APIs</h4>
+          <p>FastAPI and .NET services with clean contracts, docs and sensible defaults.</p>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+          <h4>Infrastructure</h4>
+          <p>Nginx, Traefik, Cloudflare, RabbitMQ and databases wired up to stay quietly reliable.</p>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div>
+          <h4>Open Source</h4>
+          <p>Dozens of maintained repositories — tools other people actually run and contribute to.</p>
+        </div>
+      </div>
+    </section>
 
-      <!-- ── Stack ──────────────────────────────────────────────────────── -->
-      <section id="stack" class="split">
-        <div>
-          <h6 class="sec-index">02 — Stack</h6>
-          <h2 class="sec-title">What I reach for</h2>
-          <p class="split-lede text-muted">The tools I keep coming back to across containers, automation and
-            infrastructure work.</p>
+    <!-- ── Skills ───────────────────────────────────────────────────────── -->
+    <section class="section skills" id="skills">
+      <div class="sec-head"><span class="sec-watermark">Skills</span><span class="sec-label">Skills</span></div>
+      <div class="skills-grid">
+        <div class="skills-lede">
+          <h3>The tools I reach for, day to day.</h3>
+          <p>Years of building and shipping across backend, containers, IoT and security — here's where I'm
+            strongest.</p>
         </div>
-        <div>
-          <div class="stack-tier1">
-            <span>Python</span><span>C#</span><span>Docker</span><span>FastAPI</span><span>MQTT</span><span>Raspberry&nbsp;Pi</span>
-          </div>
-          <div class="stack-tier2">
-            <div class="stack-row">
-              <h6 class="stack-label">Infra</h6>
-              <p class="stack-value">Nginx, Traefik, Cloudflare, RabbitMQ, Mosquitto, AWS, Azure DevOps</p>
-            </div>
-            <div class="stack-row">
-              <h6 class="stack-label">Security</h6>
-              <p class="stack-value">Checkpoint, Fortigate, F5 Big-IP, Zero Trust, SIEM, DLP</p>
-            </div>
-            <div class="stack-row">
-              <h6 class="stack-label">Data &amp; IoT</h6>
-              <p class="stack-value">MySQL, MSSQL, SQLite, Arduino, ESP, LoRa/LoRaWAN, AWS IoT Core</p>
-            </div>
-          </div>
+        <div class="skills-bars">
+          <div class="skill"><div class="skill-head"><span>Python</span><span>95%</span></div><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
+          <div class="skill"><div class="skill-head"><span>Docker</span><span>92%</span></div><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div></div>
+          <div class="skill"><div class="skill-head"><span>C# / .NET</span><span>85%</span></div><div class="skill-track"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill"><div class="skill-head"><span>IoT &amp; MQTT</span><span>88%</span></div><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div></div>
+          <div class="skill"><div class="skill-head"><span>FastAPI</span><span>82%</span></div><div class="skill-track"><div class="skill-fill" style="width:82%"></div></div></div>
+          <div class="skill"><div class="skill-head"><span>Security &amp; DevOps</span><span>78%</span></div><div class="skill-track"><div class="skill-fill" style="width:78%"></div></div></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- ── Writing ────────────────────────────────────────────────────── -->
-      <section id="writing" class="writing">
-        <div class="sec-head">
-          <div>
-            <h6 class="sec-index">03 — Writing</h6>
-            <h2 class="sec-title">Recent posts</h2>
-          </div>
-          <a class="sec-link" href="https://medium.com/@tomer.klein">Every post on the blog →</a>
-        </div>
-        <div class="post-list">
-          <!--POSTS-->
-        </div>
-        <p class="writing-follow text-muted">New posts land on <a href="https://medium.com/@tomer.klein">Medium</a>
-          and <a href="https://techblog.co.il">techblog.co.il</a>.</p>
-      </section>
+    <!-- ── Projects ─────────────────────────────────────────────────────── -->
+    <section class="section projects" id="projects">
+      <div class="sec-head"><span class="sec-watermark">Projects</span><span class="sec-label">Projects</span></div>
+      <div class="proj-grid">
+        <!--PROJECTS-->
+      </div>
+      <div class="proj-more"><a class="btn btn-outline" href="https://github.com/t0mer?tab=repositories">All <!--REPO_COUNT--> repositories</a></div>
+    </section>
 
-      <!-- ── Activity ───────────────────────────────────────────────────── -->
-      <section id="activity" class="split activity">
-        <div>
-          <h6 class="sec-index">04 — Activity</h6>
-          <h2 class="sec-title">Still committing</h2>
-          <p class="split-lede text-muted">Weekly public contributions over the last half-year.</p>
-        </div>
-        <div>
-          <div class="act-grid" role="img" aria-label="Contribution activity for the last 26 weeks">
-            <!--ACTIVITY_CELLS-->
-          </div>
-          <div class="act-caption">
-            <!--ACTIVITY_CAPTION-->
-          </div>
-        </div>
-      </section>
+    <!-- ── Blog ─────────────────────────────────────────────────────────── -->
+    <section class="section blog" id="blog">
+      <div class="sec-head"><span class="sec-watermark">Blog</span><span class="sec-label">Latest posts</span></div>
+      <div class="blog-grid">
+        <!--POSTS-->
+      </div>
+    </section>
 
-      <!-- ── Contact ────────────────────────────────────────────────────── -->
-      <section id="contact" class="contact">
-        <h6 class="sec-index">05 — Contact</h6>
-        <h2>Building something self-hosted? I'd like to hear about it.</h2>
-        <a class="contact-email" href="mailto:tomer.klein@gmail.com">tomer.klein@gmail.com</a>
-        <div class="contact-links">
-          <a class="btn btn-secondary" href="https://github.com/t0mer" aria-label="Tomer Klein on GitHub">GitHub</a>
-          <a class="btn btn-secondary" href="https://www.linkedin.com/in/tomer-klein-4bb8ab24/"
-            aria-label="Tomer Klein on LinkedIn">LinkedIn</a>
-          <a class="btn btn-secondary" href="https://medium.com/@tomer.klein"
-            aria-label="Tomer Klein on Medium">Medium</a>
-          <a class="btn btn-secondary" href="https://techblog.co.il" aria-label="techblog.co.il">techblog.co.il</a>
-        </div>
-        <p class="contact-foot">Raanana, Israel · © <!--YEAR--> Tomer Klein</p>
-      </section>
-    </main>
-  </div>
+    <!-- ── Contact ──────────────────────────────────────────────────────── -->
+    <section class="section contact" id="contact">
+      <div class="sec-head"><span class="sec-watermark">Contact</span><span class="sec-label">Get in touch</span></div>
+      <h3>Building something self-hosted? Let's talk about it.</h3>
+      <a class="contact-email" href="mailto:tomer.klein@gmail.com">tomer.klein@gmail.com</a>
+      <div class="contact-socials">
+        <a class="social-btn" href="https://github.com/t0mer" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a class="social-btn" href="https://www.linkedin.com/in/tomer-klein-4bb8ab24/" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a class="social-btn" href="https://medium.com/@tomer.klein" aria-label="Medium"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></a>
+      </div>
+    </section>
+
+    <footer class="footer">© <!--YEAR--> Tomer Klein · Built and self-hosted in Raanana, Israel</footer>
+  </main>
+
+  <script>
+    (function () {
+      var t = document.getElementById('menuToggle'), s = document.getElementById('sidebar');
+      if (t && s) t.addEventListener('click', function () { s.classList.toggle('open'); });
+      var links = document.querySelectorAll('.sidebar-nav a');
+      links.forEach(function (a) { a.addEventListener('click', function () { s.classList.remove('open'); }); });
+    })();
+  </script>
 </body>
 
 </html>
