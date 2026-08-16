@@ -344,16 +344,28 @@
     <!-- STATS SECTION -->
     <section id="stats" class="content-section">
       <div class="section-header">
-        <h1 class="section-title">Let's see how I did <span class="accent">this year</span></h1>
+        <h1 class="section-title">My statistics <span class="accent">over time</span></h1>
         <span class="section-subtitle">GitHub Stats &amp; Languages</span>
       </div>
 
-      <div class="stats-grid">
-
-        <div class="stat-card">
-          <img
-            src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=t0mer&show_icons=true&theme=dark&count_private=true&langs_count=8&layout=compact"
-            alt="Top Languages" loading="lazy">
+      <!-- GitHub summary card -->
+      <div class="stats-summary">
+        <div class="stat-card wide summary-card" id="statsSummary">
+          <div class="summary-seg">
+            <i class="fa-solid fa-book-bookmark summary-icon"></i>
+            <div class="summary-number" id="statRepos">—</div>
+            <div class="summary-label">Public Repos</div>
+          </div>
+          <div class="summary-seg">
+            <i class="fa-solid fa-user-group summary-icon"></i>
+            <div class="summary-number" id="statFollowers">—</div>
+            <div class="summary-label">Followers</div>
+          </div>
+          <div class="summary-seg">
+            <i class="fa-solid fa-star summary-icon"></i>
+            <div class="summary-number" id="statStars">—</div>
+            <div class="summary-label">Total Stars</div>
+          </div>
         </div>
       </div>
 

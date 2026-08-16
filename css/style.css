@@ -627,6 +627,59 @@ img {
 }
 
 /* ========== Stats Section ========== */
+/* GitHub summary — one card matching the streak card: horizontal columns
+   split by dividers (Public Repos | Followers | Total Stars). */
+.stats-summary {
+  margin-bottom: 5px;
+}
+
+/* Reuses .stat-card.wide sizing; aspect-ratio matches the streak card (495x195)
+   so its height tracks the streak/graph cards at any viewport. */
+.summary-card {
+  aspect-ratio: 495 / 195;
+  justify-content: space-around;
+  align-items: stretch;
+  padding: 8px;
+  background: #0d1117;
+}
+
+.summary-seg {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 2px 4px;
+  text-align: center;
+}
+
+/* Vertical divider between segments, like the streak card. */
+.summary-seg + .summary-seg {
+  border-left: 1px solid var(--border);
+}
+
+.summary-icon {
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.summary-number {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.summary-label {
+  font-size: 0.58rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
@@ -703,6 +756,10 @@ img {
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    max-width: 100%;
   }
 
   .fun-facts {
