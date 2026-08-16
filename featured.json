@@ -1,0 +1,32 @@
+[
+  {
+    "name": "broadlinkmanager-docker",
+    "tech": ["Python", "Docker"],
+    "blurb": "Discover, learn and replay Broadlink RF/IR commands from a clean web UI, shipped as a container."
+  },
+  {
+    "name": "green-api-custom-notifier",
+    "tech": ["Python", "WhatsApp"],
+    "blurb": "Send WhatsApp notifications through the GreenAPI cloud over one simple HTTP endpoint."
+  },
+  {
+    "name": "ocr-docker",
+    "tech": ["Python", "Flask"],
+    "blurb": "A small Flask service that pulls text out of images and PDFs with OCR."
+  },
+  {
+    "name": "Find-my-kids",
+    "tech": ["Python", "DeepFace"],
+    "blurb": "Spot known faces in WhatsApp group photos with DeepFace and alert the right people instantly."
+  },
+  {
+    "name": "deepstack-trainer",
+    "tech": ["Python", "Flask"],
+    "blurb": "Train and test DeepStack AI models from the browser, no command line required."
+  },
+  {
+    "name": "dockerbot",
+    "tech": ["Python", "Telegram"],
+    "blurb": "A Telegram bot in a container for running and watching your Docker hosts."
+  }
+]

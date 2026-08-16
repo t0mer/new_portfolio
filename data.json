@@ -1,0 +1,137 @@
+{
+  "generatedAt": "2026-08-16T23:01:40.950Z",
+  "profile": {
+    "publicRepos": 209,
+    "followers": 201,
+    "totalStars": 1147,
+    "contributionsLastYear": 2755
+  },
+  "featured": [
+    {
+      "name": "broadlinkmanager-docker",
+      "url": "https://github.com/t0mer/broadlinkmanager-docker",
+      "blurb": "Discover, learn and replay Broadlink RF/IR commands from a clean web UI, shipped as a container.",
+      "tech": [
+        "Python",
+        "Docker"
+      ],
+      "stars": 321,
+      "pushedAt": "2026-08-16T18:04:26Z"
+    },
+    {
+      "name": "green-api-custom-notifier",
+      "url": "https://github.com/t0mer/green-api-custom-notifier",
+      "blurb": "Send WhatsApp notifications through the GreenAPI cloud over one simple HTTP endpoint.",
+      "tech": [
+        "Python",
+        "WhatsApp"
+      ],
+      "stars": 87,
+      "pushedAt": "2026-07-31T17:38:47Z"
+    },
+    {
+      "name": "ocr-docker",
+      "url": "https://github.com/t0mer/ocr-docker",
+      "blurb": "A small Flask service that pulls text out of images and PDFs with OCR.",
+      "tech": [
+        "Python",
+        "Flask"
+      ],
+      "stars": 76,
+      "pushedAt": "2026-08-16T18:05:47Z"
+    },
+    {
+      "name": "Find-my-kids",
+      "url": "https://github.com/t0mer/Find-my-kids",
+      "blurb": "Spot known faces in WhatsApp group photos with DeepFace and alert the right people instantly.",
+      "tech": [
+        "Python",
+        "DeepFace"
+      ],
+      "stars": 65,
+      "pushedAt": "2026-08-16T18:05:04Z"
+    },
+    {
+      "name": "deepstack-trainer",
+      "url": "https://github.com/t0mer/deepstack-trainer",
+      "blurb": "Train and test DeepStack AI models from the browser, no command line required.",
+      "tech": [
+        "Python",
+        "Flask"
+      ],
+      "stars": 26,
+      "pushedAt": "2026-08-16T18:04:47Z"
+    },
+    {
+      "name": "dockerbot",
+      "url": "https://github.com/t0mer/dockerbot",
+      "blurb": "A Telegram bot in a container for running and watching your Docker hosts.",
+      "tech": [
+        "Python",
+        "Telegram"
+      ],
+      "stars": 24,
+      "pushedAt": "2026-08-16T18:04:51Z"
+    }
+  ],
+  "weeks": [
+    0,
+    0,
+    10,
+    4,
+    2,
+    1,
+    0,
+    18,
+    0,
+    0,
+    0,
+    0,
+    162,
+    531,
+    431,
+    160,
+    154,
+    103,
+    216,
+    161,
+    215,
+    198,
+    154,
+    2,
+    0,
+    72
+  ],
+  "posts": [
+    {
+      "title": "Someone Can Issue a Certificate for Your Domain Right Now. Would You Know?",
+      "url": "https://medium.com/@tomer.klein/someone-can-issue-a-certificate-for-your-domain-right-now-would-you-know-c5525ca5c8a2",
+      "publishedAt": "2026-08-12",
+      "readingMinutes": 10
+    },
+    {
+      "title": "From A+ to F: Track Every Change in Your SSL/TLS Posture",
+      "url": "https://medium.com/@tomer.klein/from-a-to-f-track-every-change-in-your-ssl-tls-posture-27e0e6a5118f",
+      "publishedAt": "2026-08-12",
+      "readingMinutes": 10
+    },
+    {
+      "title": "Rechroma: Bringing Old Photos Back to Life with Self-Hosted AI",
+      "url": "https://medium.com/@tomer.klein/rechroma-bringing-old-photos-back-to-life-with-self-hosted-ai-0715f24b5e80",
+      "publishedAt": "2026-08-11",
+      "readingMinutes": 12
+    },
+    {
+      "title": "DNSMon: Check, Track, and Monitor DNS Propagation Worldwide",
+      "url": "https://medium.com/@tomer.klein/dnsmon-check-track-and-monitor-dns-propagation-worldwide-678ee8deaf58",
+      "publishedAt": "2026-08-05",
+      "readingMinutes": 13
+    },
+    {
+      "title": "Stop Guessing Which DNS Server Is Fastest - Measure It",
+      "url": "https://medium.com/@tomer.klein/stop-guessing-which-dns-server-is-fastest-measure-it-e814cf9479fb",
+      "publishedAt": "2026-08-05",
+      "readingMinutes": 12
+    }
+  ]
+}
