@@ -1,418 +1,240 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-  <!-- Self-heal: remove any stale service worker + caches left by a previous
-       app on this origin (e.g. a Flutter SW) so fresh assets always load. -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function (regs) {
-        regs.forEach(function (reg) { reg.unregister(); });
-      });
-      if (window.caches && caches.keys) {
-        caches.keys().then(function (keys) {
-          keys.forEach(function (k) { caches.delete(k); });
-        });
-      }
-    }
-  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tomer Klein — self-hosted IoT &amp; automation tools</title>
+  <meta name="description"
+    content="C#/Python developer in Raanana, Israel. Self-hosted IoT, Home Assistant integrations and security tooling — most of it open source, all of it in production.">
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) — async, non-blocking -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TDVVS33XNG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-TDVVS33XNG');
   </script>
 
-
-
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tomer Klein — Portfolio | Python & C# Developer, IoT Innovator, Open Source Enthusiast</title>
-  <meta name="description"
-    content="Tomer Klein — Passionate C#/Python developer, IoT innovator, Docker enthusiast, and open source contributor. Building smart-home solutions, DevOps tools, and automation projects.">
-  <meta name="keywords"
-    content="Tomer Klein, Python developer, C# developer, IoT, open source, Docker, Home Assistant, smart home, DevOps, automation, portfolio, GitHub, Raspberry Pi, FastAPI, Flask, Grafana, n8n">
-  <meta name="author" content="Tomer Klein">
-  <meta name="robots" content="index, follow">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://about.tomerklein.dev/">
-  <meta property="og:title" content="Tomer Klein — Python & C# Developer, IoT Innovator">
-  <meta property="og:description"
-    content="Passionate developer building open source IoT, Docker, and automation projects. Explore my portfolio, tech stack, top repos, and latest blog posts.">
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/4478920?v=4">
-  <meta property="og:image:width" content="460">
-  <meta property="og:image:height" content="460">
-  <meta property="og:site_name" content="Tomer Klein Portfolio">
-  <meta property="og:locale" content="en_US">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Tomer Klein — Python & C# Developer, IoT Innovator">
-  <meta name="twitter:description"
-    content="Passionate developer building open source IoT, Docker, and automation projects. Explore my portfolio, tech stack, top repos, and latest blog posts.">
-  <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/4478920?v=4">
-
-  <link rel="canonical" href="https://about.tomerklein.dev/">
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
-  <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/4478920?v=4">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20260816">
+  <link rel="preload" href="assets/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/broadsheet.css">
 </head>
 
 <body>
-
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-inner">
-      <div class="avatar-wrap">
-        <img src="https://avatars.githubusercontent.com/u/4478920?v=4" alt="Tomer Klein" class="avatar">
-      </div>
-      <h2 class="sidebar-name">Tomer Klein</h2>
-      <div class="sidebar-title">
-        <span class="typing" id="typed"></span><span class="cursor">|</span>
-      </div>
-
-      <nav class="sidebar-nav">
-        <ul>
-          <li><a href="#about" class="nav-link active" data-section="about"><i class="fa-solid fa-user"></i><span>About
-                Me</span></a></li>
-          <li><a href="#skills" class="nav-link" data-section="skills"><i class="fa-solid fa-code"></i><span>Tech
-                Stack</span></a></li>
-          <li><a href="#projects" class="nav-link" data-section="projects"><i
-                class="fa-solid fa-folder-open"></i><span>Projects</span></a></li>
-          <li><a href="#blog" class="nav-link" data-section="blog"><i
-                class="fa-solid fa-pen-nib"></i><span>Blog</span></a></li>
-          <li><a href="#stats" class="nav-link" data-section="stats"><i
-                class="fa-solid fa-chart-line"></i><span>Stats</span></a></li>
-        </ul>
+  <div class="wrap">
+    <header class="nav">
+      <a class="nav-brand" href="#top">Tomer Klein</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="#work">Work</a>
+        <a class="nav-link" href="#stack">Stack</a>
+        <a class="nav-link" href="#writing">Writing</a>
+        <a class="nav-link" href="#contact">Contact</a>
       </nav>
+    </header>
 
-      <div class="sidebar-social">
-        <a href="https://github.com/t0mer" target="_blank" rel="noopener" title="GitHub"><i
-            class="fa-brands fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/tomer-klein-4bb8ab24/" target="_blank" rel="noopener" title="LinkedIn"><i
-            class="fa-brands fa-linkedin-in"></i></a>
-        <a href="https://twitter.com/tomerklein" target="_blank" rel="noopener" title="Twitter"><i
-            class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://medium.com/@tomer.klein" target="_blank" rel="noopener" title="Medium"><i
-            class="fa-brands fa-medium"></i></a>
-        <a href="https://www.facebook.com/tomer.klein" target="_blank" rel="noopener" title="Facebook"><i
-            class="fa-brands fa-facebook-f"></i></a>
-        <a href="mailto:tomer.klein@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
-      </div>
-
-      <div class="sidebar-footer">
-        <span>&copy; 2026 Tomer Klein</span>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Sidebar Overlay (mobile) -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-  <!-- Mobile Header -->
-  <header class="mobile-header" id="mobileHeader">
-    <div class="mobile-avatar">
-      <img src="https://avatars.githubusercontent.com/u/4478920?v=4" alt="Tomer Klein">
-    </div>
-    <span class="mobile-name">Tomer Klein</span>
-    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-  </header>
-
-  <!-- Main Content -->
-  <main class="main-content">
-
-    <!-- ABOUT SECTION -->
-    <section id="about" class="content-section active">
-      <div class="section-header">
-        <h1 class="section-title">About <span class="accent">Me</span></h1>
-        <span class="section-subtitle">Who am I</span>
-      </div>
-
-      <div class="about-intro">
-        <p>I'm a passionate <strong>C#/Python developer</strong> with a knack for <strong>IoT innovations</strong> and a
-          fervent love for <strong>open source projects</strong>. I thrive on turning smart home dreams into reality,
-          weaving technology into everyday life.</p>
-        <p>My journey involves not just writing code but creating experiences. I believe in the transformative power of
-          technology to improve our lives and I'm on a mission to make it happen.</p>
-      </div>
-
-      <div class="about-details">
-        <div class="info-list">
-          <div class="info-item">
-            <span class="info-label"><i class="fa-solid fa-briefcase"></i> Company</span>
-            <span class="info-value">MSD animal health technology labs</span>
+    <main id="top">
+      <!-- ── Hero ───────────────────────────────────────────────────────── -->
+      <section class="hero">
+        <div class="hero-left">
+          <p class="hero-kicker">C#/Python developer · Raanana, Israel</p>
+          <h1>I build self-hosted IoT and automation tools that people actually run.</h1>
+          <p class="hero-sub">Docker containers, Home Assistant integrations and security tooling at MSD Animal
+            Health Technology Labs — most of it open source, <em>all of it in production somewhere.</em></p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#work">Browse the projects</a>
+            <a class="btn btn-secondary" href="#writing">Read the blog</a>
           </div>
-          <div class="info-item">
-            <span class="info-label"><i class="fa-solid fa-location-dot"></i> Location</span>
-            <span class="info-value">Raanana, Israel</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label"><i class="fa-solid fa-globe"></i> Website</span>
-            <span class="info-value"><a href="https://techblog.co.il" target="_blank"
-                rel="noopener">techblog.co.il</a></span>
-          </div>
-          <div class="info-item">
-            <span class="info-label"><i class="fa-solid fa-blog"></i> Blog</span>
-            <span class="info-value"><a href="https://tomerklein.dev" target="_blank"
-                rel="noopener">tomerklein.dev</a></span>
+          <div class="hero-figures">
+            <div class="figure-item"><span class="figure-value">209</span><span class="figure-label">Public repos</span></div>
+            <div class="figure-item"><span class="figure-value">1.1k</span><span class="figure-label">Stars earned</span></div>
+            <div class="figure-item"><span class="figure-value">1,240</span><span class="figure-label">Contributions</span></div>
           </div>
         </div>
-      </div>
+        <figure class="hero-portrait halftone">
+          <img src="assets/portrait.svg" width="460" height="575"
+            alt="Portrait of Tomer Klein">
+          <figcaption>One image, one origin. The duplicate avatar goes.</figcaption>
+        </figure>
+      </section>
 
-      <div class="about-cards">
-        <div class="about-card">
-          <div class="about-card-icon"><i class="fa-brands fa-docker"></i></div>
-          <h3>Docker Containers</h3>
-          <p>Currently working on developing Docker containers for various automation and self-hosted solutions.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon"><i class="fa-solid fa-house-signal"></i></div>
-          <h3>Home Automation</h3>
-          <p>Love contributing to Home automation projects and making smart home dreams a reality.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon"><i class="fa-solid fa-microchip"></i></div>
-          <h3>Electronics &amp; DIY</h3>
-          <p>Passionate about electronics and DIY projects — from Raspberry Pi to LoRa/LoRaWAN networks.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon"><i class="fa-solid fa-shield-halved"></i></div>
-          <h3>Security &amp; DevOps</h3>
-          <p>Experienced with firewalls, WAF, Zero Trust architectures, and cloud infrastructure security.</p>
-        </div>
-      </div>
-
-      <div class="fun-facts">
-        <div class="fact">
-          <div class="fact-number counter" data-target="170">0</div>
-          <div class="fact-label">Public Repos</div>
-        </div>
-        <div class="fact">
-          <div class="fact-number counter" data-target="196">0</div>
-          <div class="fact-label">Followers</div>
-        </div>
-        <div class="fact">
-          <div class="fact-number counter" data-target="381">0</div>
-          <div class="fact-label">Contributions</div>
-        </div>
-        <div class="fact">
-          <div class="fact-number counter" data-target="50">0</div>
-          <div class="fact-label">Blog Posts</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS SECTION -->
-    <section id="skills" class="content-section">
-      <div class="section-header">
-        <h1 class="section-title">Tech <span class="accent">Stack</span></h1>
-        <span class="section-subtitle">My Knowledge</span>
-      </div>
-
-      <div class="skills-category">
-        <h3 class="skills-cat-title"><i class="fa-solid fa-laptop-code"></i> Languages</h3>
-        <div class="skills-grid">
-          <span class="skill-badge">Python</span>
-          <span class="skill-badge">C#</span>
-          <span class="skill-badge">Bash</span>
-          <span class="skill-badge">JavaScript</span>
-        </div>
-      </div>
-
-      <div class="skills-category">
-        <h3 class="skills-cat-title"><i class="fa-solid fa-layer-group"></i> Libraries &amp; Frameworks</h3>
-        <div class="skills-grid">
-          <span class="skill-badge">.NET</span>
-          <span class="skill-badge">FastAPI</span>
-          <span class="skill-badge">Flask</span>
-          <span class="skill-badge">Bootstrap</span>
-          <span class="skill-badge">Selenium</span>
-        </div>
-      </div>
-
-      <div class="skills-category">
-        <h3 class="skills-cat-title"><i class="fa-solid fa-database"></i> Databases</h3>
-        <div class="skills-grid">
-          <span class="skill-badge">MySQL</span>
-          <span class="skill-badge">MSSQL</span>
-          <span class="skill-badge">SQLite</span>
-        </div>
-      </div>
-
-      <div class="skills-category">
-        <h3 class="skills-cat-title"><i class="fa-solid fa-server"></i> Infrastructure &amp; DevOps</h3>
-        <div class="skills-grid">
-          <span class="skill-badge">Git</span>
-          <span class="skill-badge">GitHub</span>
-          <span class="skill-badge">Docker</span>
-          <span class="skill-badge">RabbitMQ</span>
-          <span class="skill-badge">Mosquitto</span>
-          <span class="skill-badge">AWS</span>
-          <span class="skill-badge">Azure DevOps</span>
-          <span class="skill-badge">Apache</span>
-          <span class="skill-badge">Nginx</span>
-          <span class="skill-badge">Traefik</span>
-          <span class="skill-badge">Cloudflare</span>
-        </div>
-      </div>
-
-      <div class="skills-category">
-        <h3 class="skills-cat-title"><i class="fa-solid fa-wrench"></i> IDEs &amp; Tools</h3>
-        <div class="skills-grid">
-          <span class="skill-badge">Visual Studio</span>
-          <span class="skill-badge">VS Code</span>
-          <span class="skill-badge">Postman</span>
-        </div>
-      </div>
-
-      <div class="skills-category">
-        <h3 class="skills-cat-title"><i class="fa-solid fa-shield-halved"></i> Firewall, WAF &amp; Security</h3>
-        <div class="skills-grid">
-          <span class="skill-badge">Checkpoint</span>
-          <span class="skill-badge">Sophos</span>
-          <span class="skill-badge">Fortigate</span>
-          <span class="skill-badge">F5 Big-IP</span>
-          <span class="skill-badge">Solarwinds SIEM</span>
-          <span class="skill-badge">McAfee DLP</span>
-          <span class="skill-badge">Cloudflare ZeroTrust</span>
-          <span class="skill-badge">Teleport</span>
-        </div>
-      </div>
-
-      <div class="skills-category">
-        <h3 class="skills-cat-title"><i class="fa-solid fa-microchip"></i> IoT</h3>
-        <div class="skills-grid">
-          <span class="skill-badge">Raspberry Pi</span>
-          <span class="skill-badge">Arduino</span>
-          <span class="skill-badge">LoRa/LoRaWAN</span>
-          <span class="skill-badge">MQTT</span>
-          <span class="skill-badge">ESP</span>
-          <span class="skill-badge">AWS IoT Core</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS SECTION -->
-    <section id="projects" class="content-section">
-      <div class="section-header">
-        <h1 class="section-title">Open Source <span class="accent">Projects</span></h1>
-        <span class="section-subtitle">Most Starred Repos</span>
-      </div>
-
-      <div class="projects-grid" id="projectsGrid">
-        <div class="blog-loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading projects...</div>
-      </div>
-
-      <div class="projects-footer">
-        <a href="https://github.com/t0mer?tab=repositories" target="_blank" rel="noopener" class="btn-outline">
-          <i class="fa-brands fa-github"></i> View All Repositories
-        </a>
-      </div>
-    </section>
-
-    <!-- BLOG SECTION -->
-    <section id="blog" class="content-section">
-      <div class="section-header">
-        <h1 class="section-title">Latest <span class="accent">Posts</span></h1>
-        <span class="section-subtitle">From Medium</span>
-      </div>
-
-      <div class="blog-grid" id="blogGrid">
-        <div class="blog-loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading articles...</div>
-      </div>
-
-      <div class="blog-footer">
-        <a href="https://tomerklein.dev" target="_blank" rel="noopener" class="btn-outline">
-          <i class="fa-brands fa-medium"></i> Read More on Medium
-        </a>
-      </div>
-    </section>
-
-    <!-- STATS SECTION -->
-    <section id="stats" class="content-section">
-      <div class="section-header">
-        <h1 class="section-title">My statistics <span class="accent">over time</span></h1>
-        <span class="section-subtitle">GitHub Stats &amp; Languages</span>
-      </div>
-
-      <!-- GitHub summary card -->
-      <div class="stats-summary">
-        <div class="stat-card wide summary-card" id="statsSummary">
-          <div class="summary-seg">
-            <i class="fa-solid fa-book-bookmark summary-icon"></i>
-            <div class="summary-number" id="statRepos">—</div>
-            <div class="summary-label">Public Repos</div>
+      <!-- ── Selected work ──────────────────────────────────────────────── -->
+      <section id="work" class="work">
+        <div class="sec-head">
+          <div>
+            <h6 class="sec-index">01 — Selected work</h6>
+            <h2 class="sec-title">Things I maintain</h2>
           </div>
-          <div class="summary-seg">
-            <i class="fa-solid fa-user-group summary-icon"></i>
-            <div class="summary-number" id="statFollowers">—</div>
-            <div class="summary-label">Followers</div>
-          </div>
-          <div class="summary-seg">
-            <i class="fa-solid fa-star summary-icon"></i>
-            <div class="summary-number" id="statStars">—</div>
-            <div class="summary-label">Total Stars</div>
-          </div>
+          <a class="sec-link" href="https://github.com/t0mer?tab=repositories">All 209 repositories →</a>
         </div>
-      </div>
+        <div class="work-grid">
+          <a class="card elev-sm" href="https://github.com/t0mer/broadlinkmanager-docker">
+            <span class="card-kicker">Python · Docker</span>
+            <span class="card-title">broadlinkmanager-docker</span>
+            <p class="card-body">Discover, learn and replay Broadlink RF/IR commands from a clean web UI, shipped as a container.</p>
+            <span class="card-meta">★ 321 · updated today</span>
+          </a>
+          <a class="card elev-sm" href="https://github.com/t0mer/green-api-custom-notifier">
+            <span class="card-kicker">Python · WhatsApp</span>
+            <span class="card-title">green-api-custom-notifier</span>
+            <p class="card-body">Send WhatsApp notifications through the GreenAPI cloud over one simple HTTP endpoint.</p>
+            <span class="card-meta">★ 87 · updated 2 weeks ago</span>
+          </a>
+          <a class="card elev-sm" href="https://github.com/t0mer/ocr-docker">
+            <span class="card-kicker">Python · Flask</span>
+            <span class="card-title">ocr-docker</span>
+            <p class="card-body">A small Flask service that pulls text out of images and PDFs with OCR.</p>
+            <span class="card-meta">★ 76 · updated today</span>
+          </a>
+          <a class="card elev-sm" href="https://github.com/t0mer/Find-my-kids">
+            <span class="card-kicker">Python · DeepFace</span>
+            <span class="card-title">Find-my-kids</span>
+            <p class="card-body">Spot known faces in WhatsApp group photos with DeepFace and alert the right people instantly.</p>
+            <span class="card-meta">★ 65 · updated today</span>
+          </a>
+          <a class="card elev-sm" href="https://github.com/t0mer/deepstack-trainer">
+            <span class="card-kicker">Python · Flask</span>
+            <span class="card-title">deepstack-trainer</span>
+            <p class="card-body">Train and test DeepStack AI models from the browser, no command line required.</p>
+            <span class="card-meta">★ 26 · updated today</span>
+          </a>
+          <a class="card elev-sm" href="https://github.com/t0mer/dockerbot">
+            <span class="card-kicker">Python · Telegram</span>
+            <span class="card-title">dockerbot</span>
+            <p class="card-body">A Telegram bot in a container for running and watching your Docker hosts.</p>
+            <span class="card-meta">★ 24 · updated today</span>
+          </a>
+        </div>
+      </section>
 
-      <!-- Israel ranking card (gayanvoice/top-github-users) -->
-      <div class="stats-summary">
-        <div class="stat-card wide summary-card rank-card" id="statsRanking">
-          <div class="rank-title">My rank among GitHub users in Israel 🇮🇱</div>
-          <div class="rank-row">
-            <div class="summary-seg">
-              <div class="summary-number" id="rankPublic">#—</div>
-              <div class="summary-label">Public Contributions</div>
-              <div class="summary-sub" id="rankPublicTotal">of —</div>
+      <!-- ── Stack ──────────────────────────────────────────────────────── -->
+      <section id="stack" class="split">
+        <div>
+          <h6 class="sec-index">02 — Stack</h6>
+          <h2 class="sec-title">What I reach for</h2>
+          <p class="split-lede text-muted">The tools I keep coming back to across containers, automation and
+            infrastructure work.</p>
+        </div>
+        <div>
+          <div class="stack-tier1">
+            <span>Python</span><span>C#</span><span>Docker</span><span>FastAPI</span><span>MQTT</span><span>Raspberry&nbsp;Pi</span>
+          </div>
+          <div class="stack-tier2">
+            <div class="stack-row">
+              <h6 class="stack-label">Infra</h6>
+              <p class="stack-value">Nginx, Traefik, Cloudflare, RabbitMQ, Mosquitto, AWS, Azure DevOps</p>
             </div>
-            <div class="summary-seg">
-              <div class="summary-number" id="rankTotal">#—</div>
-              <div class="summary-label">Total Contributions</div>
-              <div class="summary-sub" id="rankTotalTotal">of —</div>
+            <div class="stack-row">
+              <h6 class="stack-label">Security</h6>
+              <p class="stack-value">Checkpoint, Fortigate, F5 Big-IP, Zero Trust, SIEM, DLP</p>
             </div>
-            <div class="summary-seg">
-              <div class="summary-number" id="rankFollowers">#—</div>
-              <div class="summary-label">Followers</div>
-              <div class="summary-sub" id="rankFollowersTotal">of —</div>
+            <div class="stack-row">
+              <h6 class="stack-label">Data &amp; IoT</h6>
+              <p class="stack-value">MySQL, MSSQL, SQLite, Arduino, ESP, LoRa/LoRaWAN, AWS IoT Core</p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="stats-streak">
-        <div class="stat-card wide">
-          <img
-            src="https://github-readme-streak-stats.herokuapp.com/?user=t0mer&theme=dark&background=0d1117&hide_border=true&ring=04c5bb&fire=04c5bb&currStreakLabel=04c5bb"
-            alt="GitHub Streak" loading="lazy">
+      <!-- ── Writing ────────────────────────────────────────────────────── -->
+      <section id="writing" class="writing">
+        <div class="sec-head">
+          <div>
+            <h6 class="sec-index">03 — Writing</h6>
+            <h2 class="sec-title">Recent posts</h2>
+          </div>
+          <a class="sec-link" href="https://medium.com/@tomer.klein">Every post on the blog →</a>
         </div>
-      </div>
-
-      <div class="stats-graph">
-        <div class="stat-card wide">
-          <img
-            src="https://github-readme-activity-graph.vercel.app/graph?username=t0mer&theme=react-dark&bg_color=0d1117&hide_border=true&color=04c5bb&line=04c5bb&point=ffffff"
-            alt="Contribution Graph" loading="lazy">
+        <div class="post-list">
+          <a class="post-row" href="https://medium.com/@tomer.klein/someone-can-issue-a-certificate-for-your-domain-right-now-would-you-know-c5525ca5c8a2">
+            <span class="post-date">12 Aug 2026</span>
+            <span class="post-title">Someone Can Issue a Certificate for Your Domain Right Now. Would You Know?</span>
+            <span class="post-read">10 min</span>
+          </a>
+          <a class="post-row" href="https://medium.com/@tomer.klein/from-a-to-f-track-every-change-in-your-ssl-tls-posture-27e0e6a5118f">
+            <span class="post-date">12 Aug 2026</span>
+            <span class="post-title">From A+ to F: Track Every Change in Your SSL/TLS Posture</span>
+            <span class="post-read">10 min</span>
+          </a>
+          <a class="post-row" href="https://medium.com/@tomer.klein/rechroma-bringing-old-photos-back-to-life-with-self-hosted-ai-0715f24b5e80">
+            <span class="post-date">11 Aug 2026</span>
+            <span class="post-title">Rechroma: Bringing Old Photos Back to Life with Self-Hosted AI</span>
+            <span class="post-read">12 min</span>
+          </a>
+          <a class="post-row" href="https://medium.com/@tomer.klein/dnsmon-check-track-and-monitor-dns-propagation-worldwide-678ee8deaf58">
+            <span class="post-date">5 Aug 2026</span>
+            <span class="post-title">DNSMon: Check, Track, and Monitor DNS Propagation Worldwide</span>
+            <span class="post-read">13 min</span>
+          </a>
+          <a class="post-row" href="https://medium.com/@tomer.klein/stop-guessing-which-dns-server-is-fastest-measure-it-e814cf9479fb">
+            <span class="post-date">5 Aug 2026</span>
+            <span class="post-title">Stop Guessing Which DNS Server Is Fastest - Measure It</span>
+            <span class="post-read">12 min</span>
+          </a>
         </div>
-      </div>
-    </section>
+        <p class="writing-follow text-muted">New posts land on <a href="https://medium.com/@tomer.klein">Medium</a>
+          and <a href="https://techblog.co.il">techblog.co.il</a>.</p>
+      </section>
 
-  </main>
+      <!-- ── Activity ───────────────────────────────────────────────────── -->
+      <section id="activity" class="split activity">
+        <div>
+          <h6 class="sec-index">04 — Activity</h6>
+          <h2 class="sec-title">Still committing</h2>
+          <p class="split-lede text-muted">Weekly public contributions over the last half-year.</p>
+        </div>
+        <div>
+          <div class="act-grid" role="img" aria-label="Contribution activity for the last 26 weeks">
+            <span class="act-cell l1" title="4 contributions"></span>
+            <span class="act-cell l2" title="7 contributions"></span>
+            <span class="act-cell l1" title="2 contributions"></span>
+            <span class="act-cell l0" title="0 contributions"></span>
+            <span class="act-cell l2" title="9 contributions"></span>
+            <span class="act-cell l3" title="12 contributions"></span>
+            <span class="act-cell l1" title="5 contributions"></span>
+            <span class="act-cell l1" title="3 contributions"></span>
+            <span class="act-cell l2" title="8 contributions"></span>
+            <span class="act-cell l3" title="15 contributions"></span>
+            <span class="act-cell l2" title="6 contributions"></span>
+            <span class="act-cell l1" title="1 contributions"></span>
+            <span class="act-cell l0" title="0 contributions"></span>
+            <span class="act-cell l1" title="4 contributions"></span>
+            <span class="act-cell l3" title="11 contributions"></span>
+            <span class="act-cell l2" title="7 contributions"></span>
+            <span class="act-cell l2" title="9 contributions"></span>
+            <span class="act-cell l1" title="2 contributions"></span>
+            <span class="act-cell l1" title="5 contributions"></span>
+            <span class="act-cell l3" title="13 contributions"></span>
+            <span class="act-cell l2" title="8 contributions"></span>
+            <span class="act-cell l1" title="3 contributions"></span>
+            <span class="act-cell l2" title="6 contributions"></span>
+            <span class="act-cell l2" title="10 contributions"></span>
+            <span class="act-cell l1" title="4 contributions"></span>
+            <span class="act-cell l2" title="7 contributions"></span>
+          </div>
+          <div class="act-caption">
+            <span>Last 26 weeks</span><span>1,240 contributions</span>
+          </div>
+        </div>
+      </section>
 
-  <script src="js/main.js?v=20260816b"></script>
+      <!-- ── Contact ────────────────────────────────────────────────────── -->
+      <section id="contact" class="contact">
+        <h6 class="sec-index">05 — Contact</h6>
+        <h2>Building something self-hosted? I'd like to hear about it.</h2>
+        <a class="contact-email" href="mailto:tomer.klein@gmail.com">tomer.klein@gmail.com</a>
+        <div class="contact-links">
+          <a class="btn btn-secondary" href="https://github.com/t0mer" aria-label="Tomer Klein on GitHub">GitHub</a>
+          <a class="btn btn-secondary" href="https://www.linkedin.com/in/tomer-klein-4bb8ab24/"
+            aria-label="Tomer Klein on LinkedIn">LinkedIn</a>
+          <a class="btn btn-secondary" href="https://medium.com/@tomer.klein"
+            aria-label="Tomer Klein on Medium">Medium</a>
+          <a class="btn btn-secondary" href="https://techblog.co.il" aria-label="techblog.co.il">techblog.co.il</a>
+        </div>
+        <p class="contact-foot">Raanana, Israel · © 2026 Tomer Klein</p>
+      </section>
+    </main>
+  </div>
 </body>
 
 </html>
