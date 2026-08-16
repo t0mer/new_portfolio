@@ -138,8 +138,8 @@ em { font-style: italic; }
 .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
 
 /* — page shell — */
-/* Left-aligned, asymmetric: content hugs the left, whitespace piles on the right. */
-.wrap { max-width: var(--maxw); margin: 0; }
+/* Centered container; sections stay internally asymmetric (content-left grids). */
+.wrap { max-width: var(--maxw); margin: 0 auto; }
 main { display: block; }
 section { padding-inline: var(--space-8); }
 :where(#work, #stack, #writing, #activity, #contact) { scroll-margin-top: 80px; }
