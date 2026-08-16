@@ -1,173 +1,105 @@
-# Tomer Klein — Portfolio
+# Tomer Klein — portfolio
 
-A fast, single-page developer portfolio built as a static site and deployed on
-**Cloudflare Pages**. It pulls live data from GitHub and Medium through small
-**Pages Functions** (with client-side fallbacks so it also works as a plain
-static site), and presents an About page, Projects, Blog posts, and a GitHub
-Stats section.
+A single-page developer portfolio built on the **Broadsheet** design system —
+newsprint Source Serif 4 on paper white with a cyan spot accent. It renders
+**complete, populated HTML on first paint**: repos, posts and counters are baked
+in at build time from a committed `data.json`, so there are no client-side
+fetches, no "Loading…" placeholders and no zeroed counters.
 
-## Features
-
-- **Single-page app** with hash-based section navigation (About, Skills,
-  Projects, Blog, Stats) — no framework, just vanilla JS.
-- **Live GitHub projects** — top repositories by stars, rendered from the
-  GitHub API.
-- **Live Medium blog feed** — latest articles via the Medium RSS feed.
-- **GitHub stats summary card** — public repos, followers and total stars,
-  animated count-up, alongside streak and contribution-graph widgets.
-- **Resilient data loading** — every dynamic section calls a cached Pages
-  Function first and falls back to the public API directly if the function is
-  unavailable, so the site still works when served as static files.
-- **Dark, responsive design** with a typing animation and count-up counters.
+Deployed as a static site on **Cloudflare Pages**.
 
 ## Screenshots
 
-### About
-![About](assets/screenshots/about.png)
+### Desktop
+![Desktop](assets/screenshots/desktop.png)
 
-### Projects
-![Projects](assets/screenshots/projects.png)
+### Mobile
+![Mobile](assets/screenshots/mobile.png)
 
-### Blog
-![Blog](assets/screenshots/blog.png)
+## How it works
 
-### GitHub Stats
-![GitHub Stats](assets/screenshots/stats.png)
+Everything is static. Two small Node scripts turn live data into a committed,
+fully-rendered page; a scheduled GitHub Action keeps it fresh.
 
-## Tech stack
+```
+featured.json ─┐
+               ├─▶ scripts/build-data.mjs ─▶ data.json ─▶ scripts/build-html.mjs ─▶ index.html
+GitHub + Medium┘        (fetch & merge)                        (render template)
+```
 
-- **Frontend:** HTML, CSS, vanilla JavaScript (no build step)
-- **Serverless API:** Cloudflare Pages Functions (`functions/api/*.js`)
-- **Hosting:** Cloudflare Pages
-- **Data sources:** GitHub REST API, Medium RSS (via rss2json), and the
-  `github-readme-*` widget services
+- **`scripts/build-data.mjs`** — fetches from the GitHub REST API (public repos,
+  followers, total stars, per-repo stars/dates), the public GitHub contributions
+  calendar (weekly counts + yearly total — parsed from HTML, **no token needed**)
+  and the Medium RSS feed (recent posts, reading time). It merges the
+  hand-maintained `featured.json` and writes `data.json`. On any fetch failure it
+  keeps the previous value, and it only rewrites when something other than the
+  timestamp changed.
+- **`scripts/build-html.mjs`** — renders `templates/index.html` (which has
+  `<!-- markers -->` for the dynamic regions) with `data.json` into the committed
+  `index.html`.
+- **`.github/workflows/data.yml`** — runs both scripts daily (and on manual
+  dispatch), committing `data.json` + `index.html` when they change.
+
+`data.json` and `index.html` are committed build artifacts. `featured.json` is
+hand-edited and never overwritten by the pipeline.
 
 ## Project structure
 
 ```
 .
-├── index.html              # The whole page (markup + inline gtag + SW self-heal)
-├── css/
-│   └── style.css           # Styles, theme variables, responsive rules
-├── js/
-│   └── main.js             # Navigation, animations, data fetching + fallbacks
-├── functions/
-│   └── api/
-│       ├── blog.js         # GET /api/blog   → latest Medium posts (cached 24h)
-│       ├── repos.js        # GET /api/repos  → top starred repos (cached 24h)
-│       └── stats.js        # GET /api/stats  → repos/followers/stars (cached 24h)
-├── sitemap.xml
-└── README.md
+├── index.html                 # generated — the served page (do not hand-edit)
+├── templates/index.html       # source template with <!-- markers -->
+├── data.json                  # generated — build-time data (committed)
+├── featured.json              # hand-maintained: featured repos + blurbs
+├── css/broadsheet.css         # Broadsheet tokens, base type, layout
+├── assets/
+│   ├── fonts/                 # self-hosted Source Serif 4 (woff2)
+│   ├── portrait.jpg           # self-hosted portrait (no cross-origin avatar)
+│   └── screenshots/
+├── scripts/
+│   ├── build-data.mjs         # fetch + merge → data.json
+│   └── build-html.mjs         # template + data → index.html
+└── .github/workflows/data.yml # daily refresh
 ```
 
-## Getting started
+## Build & run locally
 
-### Prerequisites
-
-- A static file server (Python, Node, etc.) for a quick local preview, **or**
-- [Node.js 18+](https://nodejs.org/) with
-  [Wrangler](https://developers.cloudflare.com/workers/wrangler/) to run the
-  Pages Functions locally.
-
-### Clone
+Requires Node 18+ (for built-in `fetch`). No dependencies, no framework.
 
 ```bash
-git clone https://github.com/t0mer/new_portfolio.git
-cd new_portfolio
-```
+# 1. Refresh data (optional — data.json is committed)
+node scripts/build-data.mjs
 
-### Option A — quick static preview
+# 2. Render the page
+node scripts/build-html.mjs
 
-Serve the folder with any static server. The `/api/*` endpoints won't exist, so
-the page automatically falls back to calling GitHub and Medium directly.
-
-```bash
-# Python
+# 3. Serve it
 python3 -m http.server 8000
-# then open http://127.0.0.1:8000/
-
-# …or Node
-npx serve .
+# open http://127.0.0.1:8000/
 ```
 
-> Opening `index.html` directly via `file://` also works — the code detects the
-> `file:` protocol and uses the direct-API fallbacks.
+The page is plain static HTML/CSS — opening `index.html` directly works too.
 
-### Option B — full local run with Pages Functions
+## Customising
 
-To exercise the real `/api/blog`, `/api/repos` and `/api/stats` endpoints
-(server-side caching, no client-side GitHub rate limits), run it with Wrangler:
-
-```bash
-npx wrangler pages dev .
-# serves on http://127.0.0.1:8788/ by default
-```
-
-## Configuration
-
-There is no config file — the portfolio is personalised by editing a few values
-in the source. Replace `t0mer` / `tomer.klein` with your own handles.
-
-### 1. GitHub username
-
-Used to fetch repos and stats. Update it in:
-
-| File | What to change |
+| Want to change | Edit |
 | --- | --- |
-| `functions/api/repos.js` | `GITHUB_API` URL (`users/<you>/repos`) |
-| `functions/api/stats.js` | `GITHUB_USER` and `GITHUB_REPOS` URLs |
-| `js/main.js` | `REPOS_FALLBACK` and `USER_FALLBACK` (client fallbacks) |
-| `index.html` | the `github-readme-streak-stats` and `github-readme-activity-graph` image `src` URLs (`user=` / `username=`), and the profile/social links |
-
-### 2. Medium blog feed
-
-The blog reads a Medium RSS feed proxied through
-[rss2json](https://rss2json.com/):
-
-| File | What to change |
-| --- | --- |
-| `functions/api/blog.js` | `MEDIUM_RSS_URL` — set your Medium `@handle` and your **own** rss2json `api_key` |
-| `js/main.js` | `BLOG_FALLBACK` — same feed URL used as the client fallback |
-
-> **Security:** `blog.js` currently embeds an rss2json API key in source.
-> Prefer moving it to a Pages **environment variable / secret** and reading it
-> from the function, rather than committing it. Never commit real keys.
-
-### 3. Google Analytics
-
-The `gtag.js` snippet lives in `index.html`. Replace the measurement ID
-`G-TDVVS33XNG` (it appears twice) with your own, or remove the snippet to
-disable analytics.
-
-### 4. Social & profile links
-
-Edit the sidebar links in `index.html` (GitHub, LinkedIn, Medium, Facebook,
-email) to point at your profiles.
-
-### API endpoints
-
-All three functions return JSON and are edge-cached for 24 hours
-(`Cache-Control` + Cloudflare `cf.cacheTtl`):
-
-| Endpoint | Returns |
-| --- | --- |
-| `GET /api/blog` | Latest Medium articles |
-| `GET /api/repos` | Top starred public repositories |
-| `GET /api/stats` | `{ public_repos, followers, total_stars }` |
+| Featured repos and their one-line descriptions | `featured.json` (then re-run both scripts) |
+| Colors, type scale, spacing | the token block at the top of `css/broadsheet.css` |
+| Copy (hero, section titles, stack lists, contact) | `templates/index.html`, then `node scripts/build-html.mjs` |
+| Portrait | replace `assets/portrait.jpg` (4:5 crop is applied via CSS) |
 
 ## Deployment (Cloudflare Pages)
 
-1. Push this repository to GitHub.
-2. In the Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect to
-   Git**, and select the repo.
-3. Build settings: **no build command**, **output directory = `/`** (root).
-   Cloudflare automatically detects the `functions/` directory and deploys the
-   `/api/*` routes as Pages Functions.
-4. Deploy. Every push to the default branch publishes automatically.
+1. Connect the repo in **Workers & Pages → Pages**.
+2. Build command: `node scripts/build-html.mjs` (or none — `index.html` is
+   committed). Output directory: `/` (root).
+3. Every push publishes; the daily Action refreshes the data and page.
 
-> The page includes a small self-heal script that unregisters any stale service
-> worker/caches left on the origin, ensuring visitors always get fresh assets.
+## Design
 
-## License
-
-No license specified. Add one (e.g. MIT) if you intend others to reuse it.
+Built to the **Broadsheet** handoff spec: serif-only, whitespace-separated
+sections (the repo card is the only boxed component), one cyan interactive
+accent, self-hosted subsetted fonts with `font-display: swap`, a visible
+`:focus-visible` ring, 44px minimum hit areas, and `prefers-reduced-motion`
+support. No CSS framework, no icon font, no animation library.
