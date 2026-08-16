@@ -54,7 +54,7 @@ function figures(profile) {
 
 function projects(featured, now) {
   return featured.map((f) => (
-    '<a class="proj-card" href="' + esc(f.url) + '">\n' +
+    '<a class="proj-card" href="' + esc(f.url) + '" target="_blank" rel="noopener noreferrer">\n' +
     '          <div class="proj-top">' + ICON_BRANCH +
     '<span class="proj-stars">' + ICON_STAR + ' ' + compact(f.stars || 0) + '</span></div>\n' +
     '          <div class="proj-body">\n' +
@@ -69,7 +69,7 @@ function projects(featured, now) {
 
 function posts(list) {
   return list.map((p) => (
-    '<a class="blog-card" href="' + esc(p.url) + '">\n' +
+    '<a class="blog-card" href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer">\n' +
     '          <span class="blog-date">' + esc(fmtDate(p.publishedAt)) + '</span>\n' +
     '          <span class="blog-title">' + esc(p.title) + '</span>\n' +
     '          <span class="blog-read">' + esc(p.readingMinutes || 1) + ' min read</span>\n' +
