@@ -1,0 +1,18 @@
+# Design / handoff / planning docs — local only, never track
+design_handoff_portfolio_refresh/
+/docs/
+docs/*
+*.design.md
+*.implementation.md
+
+# Claude / AI assistant context — local only, never track
+CLAUDE.md
+.claude/
+.cursor/
+.aider*
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
