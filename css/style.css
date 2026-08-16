@@ -680,19 +680,28 @@ img {
   white-space: nowrap;
 }
 
-/* Israel ranking card — same look as the summary card but with a rank + total
-   line, so it sizes to its content rather than the streak aspect-ratio. */
-.rank-caption {
+/* Israel ranking card — same look as the summary card but with a title row on
+   top and a rank + total line, so it sizes to its content. */
+.rank-card {
+  aspect-ratio: auto;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 16px 8px;
+}
+
+.rank-title {
+  text-align: center;
   font-size: 0.72rem;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
 }
 
-.rank-card {
-  aspect-ratio: auto;
-  padding: 16px 8px;
+.rank-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
 }
 
 .rank-card .summary-label {
