@@ -148,6 +148,8 @@
     'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40tomer.klein';
   var REPOS_FALLBACK =
     'https://api.github.com/users/t0mer/repos?per_page=100&sort=updated';
+  var USER_FALLBACK =
+    'https://api.github.com/users/t0mer';
 
   var LANG_COLORS = {
     Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#3178c6',
@@ -301,6 +303,85 @@
         loadReposFromFallback().catch(function () {
           if (projectsGrid) projectsGrid.innerHTML = '<p class="blog-loading">Unable to load projects.</p>';
         });
+      });
+  }
+
+  /* ========== GitHub Stats Summary ========== */
+  var statRepos     = document.getElementById('statRepos');
+  var statFollowers = document.getElementById('statFollowers');
+  var statStars     = document.getElementById('statStars');
+
+  function countUp(el, target) {
+    if (!el) return;
+    var duration = 1600;
+    var start = performance.now();
+    function step(now) {
+      var progress = Math.min((now - start) / duration, 1);
+      var ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(ease * target).toLocaleString();
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function renderStats(stats) {
+    countUp(statRepos, stats.public_repos || 0);
+    countUp(statFollowers, stats.followers || 0);
+    countUp(statStars, stats.total_stars || 0);
+  }
+
+  // Sum stargazers across all public repos, paginated (GitHub caps at 100/page).
+  function sumStarsFromFallback(page, acc) {
+    page = page || 1;
+    acc = acc || 0;
+    if (page > 5) return Promise.resolve(acc);
+    return fetch(REPOS_FALLBACK + '&page=' + page, { headers: { Accept: 'application/vnd.github+json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (repos) {
+        if (!Array.isArray(repos) || repos.length === 0) return acc;
+        var sum = repos.reduce(function (s, r) { return s + (r.stargazers_count || 0); }, acc);
+        if (repos.length < 100) return sum;
+        return sumStarsFromFallback(page + 1, sum);
+      });
+  }
+
+  function loadStatsFromFallback() {
+    var userPromise = fetch(USER_FALLBACK, { headers: { Accept: 'application/vnd.github+json' } })
+      .then(function (r) { return r.json(); });
+
+    return Promise.all([userPromise, sumStarsFromFallback()]).then(function (results) {
+      var user = results[0] || {};
+      renderStats({
+        public_repos: user.public_repos || 0,
+        followers: user.followers || 0,
+        total_stars: results[1] || 0,
+      });
+    });
+  }
+
+  function showStatsError() {
+    if (statRepos) statRepos.textContent = '—';
+    if (statFollowers) statFollowers.textContent = '—';
+    if (statStars) statStars.textContent = '—';
+  }
+
+  if (isLocal) {
+    loadStatsFromFallback().catch(showStatsError);
+  } else {
+    fetch('/api/stats')
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      })
+      .then(function (stats) {
+        if (stats && typeof stats.public_repos === 'number') {
+          renderStats(stats);
+        } else {
+          return loadStatsFromFallback();
+        }
+      })
+      .catch(function () {
+        loadStatsFromFallback().catch(showStatsError);
       });
   }
 
