@@ -680,6 +680,31 @@ img {
   white-space: nowrap;
 }
 
+/* Israel ranking card — same look as the summary card but with a rank + total
+   line, so it sizes to its content rather than the streak aspect-ratio. */
+.rank-caption {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.rank-card {
+  aspect-ratio: auto;
+  padding: 16px 8px;
+}
+
+.rank-card .summary-label {
+  white-space: normal;
+  margin: 4px 0 2px;
+}
+
+.summary-sub {
+  font-size: 0.62rem;
+  color: var(--text-secondary);
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
