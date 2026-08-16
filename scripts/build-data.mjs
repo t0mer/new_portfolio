@@ -2,9 +2,9 @@
 // Build-time data pipeline for the portfolio.
 //
 // Produces a single committed `data.json` from:
-//   - GitHub REST   → publicRepos, followers, totalStars, per-featured-repo stars/pushedAt
-//   - GitHub GraphQL → contributionsLastYear + weekly counts (needs a token)
-//   - Medium RSS    → recent posts (title, url, date, reading minutes)
+//   - GitHub REST → publicRepos, followers, totalStars, per-featured-repo stars/pushedAt
+//   - GitHub public contributions HTML → contributionsLastYear + weekly counts
+//   - Medium RSS  → recent posts (title, url, date, reading minutes)
 //   - featured.json → the hand-maintained repo list + blurbs (never overwritten here)
 //
 // Design rules (see design_handoff_portfolio_refresh/README.md):
@@ -13,7 +13,8 @@
 //   - Only rewrite data.json when something other than `generatedAt` changed,
 //     so the daily Action doesn't churn commits.
 //
-// Env: GITHUB_TOKEN (Actions provides it; contributions need it).
+// Env: GITHUB_TOKEN (optional; only raises the REST rate limit. Contributions,
+// repos, posts all work token-free — the whole pipeline runs without secrets).
 
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -56,21 +57,33 @@ async function getProfileAndStars() {
   };
 }
 
+// Public contributions calendar — parsed from github.com/users/<u>/contributions.
+// Each day is a <tool-tip for="contribution-day-component-{weekday}-{week}">
+// "N contributions on …". Grouping the counts by the {week} index gives weekly
+// totals; summing all gives the year. No token required.
 async function getContributions() {
-  if (!TOKEN) return { contributionsLastYear: null, weeks: null };
-  const query = 'query($login:String!){user(login:$login){contributionsCollection{contributionCalendar{totalContributions weeks{contributionDays{contributionCount}}}}}}';
-  const res = await fetch('https://api.github.com/graphql', {
-    method: 'POST',
-    headers: { ...ghHeaders, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, variables: { login: USER } }),
-  });
-  if (!res.ok) return { contributionsLastYear: null, weeks: null };
-  const json = await res.json();
-  const cal = json && json.data && json.data.user && json.data.user.contributionsCollection
-    && json.data.user.contributionsCollection.contributionCalendar;
-  if (!cal) return { contributionsLastYear: null, weeks: null };
-  const weekly = cal.weeks.map((w) => w.contributionDays.reduce((s, d) => s + d.contributionCount, 0));
-  return { contributionsLastYear: cal.totalContributions, weeks: weekly.slice(-WEEKS) };
+  try {
+    const res = await fetch('https://github.com/users/' + USER + '/contributions', {
+      headers: { 'User-Agent': 'tomer-portfolio-build', Accept: 'text/html' },
+    });
+    if (!res.ok) return { contributionsLastYear: null, weeks: null };
+    const html = await res.text();
+    const re = /<tool-tip[^>]*for="contribution-day-component-\d+-(\d+)"[^>]*>([^<]*)<\/tool-tip>/g;
+    const cols = {};
+    let total = 0;
+    let m;
+    while ((m = re.exec(html))) {
+      const week = Number(m[1]);
+      const num = /^No contributions/i.test(m[2]) ? 0 : parseInt((m[2].match(/^([\d,]+)/) || ['', '0'])[1].replace(/,/g, ''), 10) || 0;
+      cols[week] = (cols[week] || 0) + num;
+      total += num;
+    }
+    const weekly = Object.keys(cols).map(Number).sort((a, b) => a - b).map((i) => cols[i]);
+    if (weekly.length === 0) return { contributionsLastYear: null, weeks: null };
+    return { contributionsLastYear: total, weeks: weekly.slice(-WEEKS) };
+  } catch {
+    return { contributionsLastYear: null, weeks: null };
+  }
 }
 
 async function getFeatured() {
