@@ -150,6 +150,11 @@
     'https://api.github.com/users/t0mer/repos?per_page=100&sort=updated';
   var USER_FALLBACK =
     'https://api.github.com/users/t0mer';
+  var RANK_USER = 't0mer';
+  var RANK_COUNTRY = 'israel';
+  var RANK_BASE =
+    'https://raw.githubusercontent.com/gayanvoice/top-github-users/main/markdown';
+  var RANK_LISTS = ['public_contributions', 'total_contributions', 'followers'];
 
   var LANG_COLORS = {
     Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#3178c6',
@@ -382,6 +387,79 @@
       })
       .catch(function () {
         loadStatsFromFallback().catch(showStatsError);
+      });
+  }
+
+  /* ========== Israel Rankings (gayanvoice/top-github-users) ========== */
+  var rankPublic         = document.getElementById('rankPublic');
+  var rankPublicTotal    = document.getElementById('rankPublicTotal');
+  var rankTotal          = document.getElementById('rankTotal');
+  var rankTotalTotal     = document.getElementById('rankTotalTotal');
+  var rankFollowers      = document.getElementById('rankFollowers');
+  var rankFollowersTotal = document.getElementById('rankFollowersTotal');
+
+  // Rank = last `<td>number</td>` before the user's profile link; total = rows.
+  function parseRank(md, username) {
+    var marker = 'href="https://github.com/' + username + '"';
+    var idx = md.indexOf(marker);
+    if (idx === -1) return null;
+    var tds = md.slice(0, idx).match(/<td>(\d+)<\/td>/g);
+    if (!tds || tds.length === 0) return null;
+    var rank = parseInt(tds[tds.length - 1].replace(/\D/g, ''), 10);
+    var total = (md.match(/alt="Avatar of/g) || []).length;
+    if (!rank || !total) return null;
+    return { rank: rank, total: total };
+  }
+
+  function setRank(elRank, elTotal, obj) {
+    if (obj && obj.rank) {
+      if (elRank) elRank.textContent = '#' + obj.rank.toLocaleString();
+      if (elTotal) elTotal.textContent = 'of ' + obj.total.toLocaleString();
+    } else {
+      if (elRank) elRank.textContent = '—';
+      if (elTotal) elTotal.textContent = '';
+    }
+  }
+
+  function renderRankings(data) {
+    data = data || {};
+    setRank(rankPublic, rankPublicTotal, data.public_contributions);
+    setRank(rankTotal, rankTotalTotal, data.total_contributions);
+    setRank(rankFollowers, rankFollowersTotal, data.followers);
+  }
+
+  function loadRankingsFromFallback() {
+    return Promise.all(RANK_LISTS.map(function (list) {
+      return fetch(RANK_BASE + '/' + list + '/' + RANK_COUNTRY + '.md')
+        .then(function (r) { return r.text(); })
+        .then(function (md) { return parseRank(md, RANK_USER); })
+        .catch(function () { return null; });
+    })).then(function (res) {
+      renderRankings({
+        public_contributions: res[0],
+        total_contributions: res[1],
+        followers: res[2],
+      });
+    });
+  }
+
+  if (isLocal) {
+    loadRankingsFromFallback().catch(function () { renderRankings(null); });
+  } else {
+    fetch('/api/rankings')
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        if (data && (data.public_contributions || data.followers || data.total_contributions)) {
+          renderRankings(data);
+        } else {
+          return loadRankingsFromFallback();
+        }
+      })
+      .catch(function () {
+        loadRankingsFromFallback().catch(function () { renderRankings(null); });
       });
   }
 
