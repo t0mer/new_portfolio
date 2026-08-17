@@ -133,7 +133,7 @@
             <div><dt>Focus</dt><dd>IoT · Automation · Security</dd></div>
             <div><dt>Blog</dt><dd>techblog.co.il</dd></div>
           </dl>
-          <div class="about-figs">
+          <div class="about-figs" id="about-figs">
             <!--FIGURES-->
           </div>
           <a class="btn btn-gold" href="mailto:tomer.klein@gmail.com">Get in touch</a>
@@ -201,21 +201,21 @@
     <!-- ── Activity ─────────────────────────────────────────────────────── -->
     <section class="section activity" id="activity">
       <div class="sec-head"><span class="sec-label">GitHub activity</span></div>
-      <!--ISRAEL_RANK-->
-      <div class="activity-stats">
+      <div id="israel-rank"><!--ISRAEL_RANK--></div>
+      <div class="activity-stats" id="gh-stats">
         <!--ACTIVITY_STATS-->
       </div>
       <div class="activity-strip">
-        <div class="strip-cells" role="img" aria-label="Weekly contribution activity over the last year">
+        <div class="strip-cells" id="strip-cells" role="img" aria-label="Weekly contribution activity over the last year">
           <!--ACTIVITY_CELLS-->
         </div>
-        <div class="strip-caption">
+        <div class="strip-caption" id="strip-caption">
           <!--ACTIVITY_CAPTION-->
         </div>
       </div>
 
       <div class="activity-sublabel">Docker Hub</div>
-      <div class="activity-stats">
+      <div class="activity-stats" id="docker-stats">
         <!--DOCKER_STATS-->
       </div>
     </section>
@@ -223,7 +223,7 @@
     <!-- ── Projects ─────────────────────────────────────────────────────── -->
     <section class="section projects" id="projects">
       <div class="sec-head"><span class="sec-label">Projects</span></div>
-      <div class="proj-grid">
+      <div class="proj-grid" id="proj-grid">
         <!--PROJECTS-->
       </div>
       <div class="proj-more"><a class="btn btn-outline" href="https://github.com/t0mer?tab=repositories" target="_blank" rel="noopener noreferrer">All <!--REPO_COUNT--> repositories</a></div>
@@ -232,7 +232,7 @@
     <!-- ── Blog ─────────────────────────────────────────────────────────── -->
     <section class="section blog" id="blog">
       <div class="sec-head"><span class="sec-label">Latest posts</span></div>
-      <div class="blog-grid">
+      <div class="blog-grid" id="blog-grid">
         <!--POSTS-->
       </div>
     </section>
@@ -258,6 +258,33 @@
       if (t && s) t.addEventListener('click', function () { s.classList.toggle('open'); });
       var links = document.querySelectorAll('.sidebar-nav a');
       links.forEach(function (a) { a.addEventListener('click', function () { s.classList.remove('open'); }); });
+    })();
+
+    /* Live stats hydration: the page ships complete (build-time data); this
+       swaps in fresh values from /api/data (edge-cached ~3h), cached per-user in
+       localStorage for 3h. On any failure the build-time values simply stay. */
+    (function () {
+      var KEY = 'portfolio_live_v1', TTL = 3 * 3600 * 1000;
+      var IDS = ['about-figs', 'israel-rank', 'gh-stats', 'strip-cells', 'strip-caption', 'docker-stats', 'proj-grid', 'blog-grid'];
+      function apply(frag) {
+        if (!frag) return;
+        IDS.forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el && typeof frag[id] === 'string') el.innerHTML = frag[id];
+        });
+      }
+      try {
+        var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+        if (c && c.frag && (Date.now() - c.t) < TTL) { apply(c.frag); return; }
+      } catch (e) { /* ignore */ }
+      fetch('/api/data')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (frag) {
+          if (!frag) return;
+          apply(frag);
+          try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), frag: frag })); } catch (e) { /* ignore */ }
+        })
+        .catch(function () { /* keep build-time values */ });
     })();
   </script>
 </body>
