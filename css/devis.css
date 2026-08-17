@@ -168,6 +168,8 @@ img { display: block; max-width: 100%; }
 .strip-cell.l3 { background: rgba(254, 197, 68, 0.75); }
 .strip-cell.l4 { background: var(--gold); }
 .strip-caption { display: flex; justify-content: space-between; margin-top: 16px; font-size: 13px; color: var(--muted); }
+.activity-sublabel { text-align: center; margin: 48px 0 24px; font-size: 13px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+.activity-sublabel::after { content: ""; display: block; width: 40px; height: 2px; background: var(--gold); margin: 12px auto 0; }
 
 /* ── Projects ─────────────────────────────────────────────────────────── */
 .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }

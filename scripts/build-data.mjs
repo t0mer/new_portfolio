@@ -22,6 +22,7 @@ import { dirname, join } from 'node:path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const USER = 't0mer';
+const DOCKER_USER = 'techblog';
 const MEDIUM_FEED = 'https://medium.com/feed/@tomer.klein';
 const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
 const MAX_POSTS = 5;
@@ -158,6 +159,27 @@ async function getPosts() {
   return posts.slice(0, MAX_POSTS);
 }
 
+// Docker Hub — image count, total stars and total pulls across all repos in
+// the namespace. Public API, no auth.
+async function getDockerHub() {
+  try {
+    let url = 'https://hub.docker.com/v2/repositories/' + DOCKER_USER + '/?page_size=100';
+    let count = null, stars = 0, pulls = 0;
+    for (let i = 0; i < 6 && url; i++) {
+      const res = await fetch(url, { headers: { 'User-Agent': 'tomer-portfolio-build' } });
+      if (!res.ok) break;
+      const j = await res.json();
+      if (count === null) count = j.count;
+      for (const r of (j.results || [])) { stars += r.star_count || 0; pulls += r.pull_count || 0; }
+      url = j.next || null;
+    }
+    if (count === null) return { images: null, stars: null, pulls: null };
+    return { images: count, stars, pulls };
+  } catch {
+    return { images: null, stars: null, pulls: null };
+  }
+}
+
 // Retain the previous value when a freshly-fetched one is missing/empty.
 function keep(fresh, prev, isEmpty) {
   return isEmpty(fresh) ? (prev === undefined ? fresh : prev) : fresh;
@@ -176,7 +198,9 @@ async function main() {
   catch (e) { console.error('profile fetch failed:', e.message); profile = prev.profile || {}; }
 
   const contrib = await getContributions().catch(() => ({ contributionsLastYear: null, weeks: null, currentStreak: null, longestStreak: null }));
+  const docker = await getDockerHub().catch(() => ({ images: null, stars: null, pulls: null }));
   const prevProfile = prev.profile || {};
+  const prevDocker = prev.docker || {};
 
   const merged = {
     profile: {
@@ -186,6 +210,11 @@ async function main() {
       contributionsLastYear: keep(contrib.contributionsLastYear, prevProfile.contributionsLastYear, (v) => v == null),
       currentStreak: keep(contrib.currentStreak, prevProfile.currentStreak, (v) => v == null),
       longestStreak: keep(contrib.longestStreak, prevProfile.longestStreak, (v) => v == null),
+    },
+    docker: {
+      images: keep(docker.images, prevDocker.images, (v) => v == null),
+      stars: keep(docker.stars, prevDocker.stars, (v) => v == null),
+      pulls: keep(docker.pulls, prevDocker.pulls, (v) => v == null),
     },
     featured: await getFeatured().catch((e) => { console.error('featured failed:', e.message); return prev.featured || []; }),
     weeks: keep(contrib.weeks, prev.weeks, (v) => !Array.isArray(v) || v.length === 0),

@@ -14,6 +14,12 @@ const esc = (s) => String(s)
 
 const compact = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n));
 const commas = (n) => Number(n).toLocaleString('en-US');
+const compactNum = (n) => {
+  n = Number(n) || 0;
+  if (n >= 1e6) return (n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(n >= 1e4 ? 0 : 1).replace(/\.0$/, '') + 'k';
+  return String(n);
+};
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 function fmtDate(iso) {
@@ -88,6 +94,18 @@ function activityStats(profile) {
   ).join('\n        ');
 }
 
+function dockerStats(docker) {
+  docker = docker || {};
+  const tiles = [
+    { v: commas(docker.images || 0), l: 'Docker images' },
+    { v: commas(docker.stars || 0), l: 'Docker stars' },
+    { v: compactNum(docker.pulls || 0), l: 'Total pulls' },
+  ];
+  return tiles.map((t) =>
+    '<div class="stat-tile"><b>' + esc(t.v) + '</b><span>' + esc(t.l) + '</span></div>'
+  ).join('\n        ');
+}
+
 function activityCells(weeks) {
   const max = Math.max(1, ...weeks);
   return weeks.map((w) => {
@@ -117,6 +135,7 @@ async function main() {
     .replace('<!--ACTIVITY_STATS-->', activityStats(profile))
     .replace('<!--ACTIVITY_CELLS-->', activityCells(weeks))
     .replace('<!--ACTIVITY_CAPTION-->', caption)
+    .replace('<!--DOCKER_STATS-->', dockerStats(data.docker))
     .replace('<!--PROJECTS-->', projects(data.featured || [], now))
     .replace('<!--POSTS-->', posts(data.posts || []))
     .replace(/<!--YEAR-->/g, String(new Date(now).getUTCFullYear()));
