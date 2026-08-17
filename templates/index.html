@@ -261,29 +261,21 @@
       links.forEach(function (a) { a.addEventListener('click', function () { s.classList.remove('open'); }); });
     })();
 
-    /* Live stats hydration: the page ships complete (build-time data); this
-       swaps in fresh values from /api/data (edge-cached ~3h), cached per-user in
-       localStorage for 3h. On any failure the build-time values simply stay. */
+    /* Live stats hydration: the page ships complete (build-time data) for an
+       instant, no-flash paint, then always swaps in the current values from
+       /api/data (edge-cached ~3h server-side, so this stays rate-limit-safe).
+       No client-side cache — so /api/update takes effect on the next load. On
+       any failure the build-time values simply stay. */
     (function () {
-      var KEY = 'portfolio_live_v1', TTL = 3 * 3600 * 1000;
       var IDS = ['about-figs', 'israel-rank', 'gh-stats', 'strip-cells', 'strip-caption', 'docker-stats', 'proj-grid', 'blog-grid'];
-      function apply(frag) {
-        if (!frag) return;
-        IDS.forEach(function (id) {
-          var el = document.getElementById(id);
-          if (el && typeof frag[id] === 'string') el.innerHTML = frag[id];
-        });
-      }
-      try {
-        var c = JSON.parse(localStorage.getItem(KEY) || 'null');
-        if (c && c.frag && (Date.now() - c.t) < TTL) { apply(c.frag); return; }
-      } catch (e) { /* ignore */ }
-      fetch('/api/data')
+      fetch('/api/data', { cache: 'no-store' })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (frag) {
           if (!frag) return;
-          apply(frag);
-          try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), frag: frag })); } catch (e) { /* ignore */ }
+          IDS.forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el && typeof frag[id] === 'string') el.innerHTML = frag[id];
+          });
         })
         .catch(function () { /* keep build-time values */ });
     })();
