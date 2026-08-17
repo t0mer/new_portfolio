@@ -180,6 +180,30 @@ async function getDockerHub() {
   }
 }
 
+// Rank among Israeli GitHub users by public contributions
+// (gayanvoice/top-github-users). Each ranked row is
+// `<tr><td>RANK</td><td><a href="https://github.com/<user>">…`; the rank is the
+// last `<td>number</td>` before the user's profile link, the total is the row
+// count. Token-free.
+async function getIsraelRank() {
+  try {
+    const url = 'https://raw.githubusercontent.com/gayanvoice/top-github-users/main/markdown/public_contributions/israel.md';
+    const res = await fetch(url, { headers: { 'User-Agent': 'tomer-portfolio-build' } });
+    if (!res.ok) return null;
+    const md = await res.text();
+    const idx = md.indexOf('href="https://github.com/' + USER + '"');
+    if (idx === -1) return null;
+    const tds = md.slice(0, idx).match(/<td>(\d+)<\/td>/g);
+    if (!tds || tds.length === 0) return null;
+    const rank = parseInt(tds[tds.length - 1].replace(/\D/g, ''), 10);
+    const total = (md.match(/alt="Avatar of/g) || []).length;
+    if (!rank || !total) return null;
+    return { rank, total };
+  } catch {
+    return null;
+  }
+}
+
 // Retain the previous value when a freshly-fetched one is missing/empty.
 function keep(fresh, prev, isEmpty) {
   return isEmpty(fresh) ? (prev === undefined ? fresh : prev) : fresh;
@@ -199,6 +223,7 @@ async function main() {
 
   const contrib = await getContributions().catch(() => ({ contributionsLastYear: null, weeks: null, currentStreak: null, longestStreak: null }));
   const docker = await getDockerHub().catch(() => ({ images: null, stars: null, pulls: null }));
+  const israelRank = await getIsraelRank().catch(() => null);
   const prevProfile = prev.profile || {};
   const prevDocker = prev.docker || {};
 
@@ -216,6 +241,7 @@ async function main() {
       stars: keep(docker.stars, prevDocker.stars, (v) => v == null),
       pulls: keep(docker.pulls, prevDocker.pulls, (v) => v == null),
     },
+    israelRank: keep(israelRank, prev.israelRank, (v) => !v || v.rank == null),
     featured: await getFeatured().catch((e) => { console.error('featured failed:', e.message); return prev.featured || []; }),
     weeks: keep(contrib.weeks, prev.weeks, (v) => !Array.isArray(v) || v.length === 0),
     posts: await getPosts().catch((e) => { console.error('posts failed:', e.message); return prev.posts || []; }),
