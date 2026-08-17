@@ -1,0 +1,19 @@
+# Files NOT served as static assets (source, config, tooling).
+# The worker itself and lib/ are bundled into the Worker, not served.
+node_modules
+.git
+.github
+.wrangler
+scripts
+lib
+templates
+design_handoff_portfolio_refresh
+worker.js
+wrangler.jsonc
+package.json
+package-lock.json
+featured.json
+.gitignore
+.assetsignore
+.dev.vars*
+*.md

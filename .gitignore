@@ -20,3 +20,5 @@ CLAUDE.md
 # Cloudflare Wrangler local state
 .wrangler/
 node_modules/
+.dev.vars*
+.env*

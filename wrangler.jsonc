@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-04-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "main": "worker.js",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  }
+}
