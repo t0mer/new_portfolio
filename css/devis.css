@@ -154,6 +154,21 @@ img { display: block; max-width: 100%; }
 .skill-track { height: 6px; border-radius: 4px; background: rgba(255,255,255,0.08); overflow: hidden; }
 .skill-fill { height: 100%; border-radius: 4px; background: var(--gold); }
 
+/* ── Activity ─────────────────────────────────────────────────────────── */
+.activity-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 40px; }
+.stat-tile { background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px; padding: 26px 22px; text-align: center; transition: border-color var(--transition); }
+.stat-tile:hover { border-color: var(--gold); }
+.stat-tile b { display: block; color: var(--gold); font-size: 34px; font-weight: 700; line-height: 1; }
+.stat-tile span { display: inline-block; margin-top: 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.activity-strip { background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px; padding: 26px 28px; }
+.strip-cells { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; }
+.strip-cell { aspect-ratio: 1; border-radius: 2px; background: rgba(255, 255, 255, 0.06); }
+.strip-cell.l1 { background: rgba(254, 197, 68, 0.28); }
+.strip-cell.l2 { background: rgba(254, 197, 68, 0.5); }
+.strip-cell.l3 { background: rgba(254, 197, 68, 0.75); }
+.strip-cell.l4 { background: var(--gold); }
+.strip-caption { display: flex; justify-content: space-between; margin-top: 16px; font-size: 13px; color: var(--muted); }
+
 /* ── Projects ─────────────────────────────────────────────────────────── */
 .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 .proj-card {
@@ -222,6 +237,7 @@ img { display: block; max-width: 100%; }
   .section { padding: 84px 24px; }
   .hero { padding: 100px 24px; }
   .hero-hi { font-size: 40px; }
-  .svc-grid, .proj-grid, .blog-grid { grid-template-columns: 1fr; }
+  .svc-grid, .proj-grid, .blog-grid, .activity-stats { grid-template-columns: 1fr; }
   .about-details { grid-template-columns: 1fr; }
+  .strip-caption { flex-direction: column; gap: 2px; }
 }

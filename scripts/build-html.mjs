@@ -77,6 +77,26 @@ function posts(list) {
   )).join('\n        ');
 }
 
+function activityStats(profile) {
+  const tiles = [
+    { v: commas(profile.contributionsLastYear || 0), l: 'Contributions · year' },
+    { v: commas(profile.currentStreak || 0), l: 'Current streak · days' },
+    { v: commas(profile.longestStreak || 0), l: 'Longest streak · days' },
+  ];
+  return tiles.map((t) =>
+    '<div class="stat-tile"><b>' + esc(t.v) + '</b><span>' + esc(t.l) + '</span></div>'
+  ).join('\n        ');
+}
+
+function activityCells(weeks) {
+  const max = Math.max(1, ...weeks);
+  return weeks.map((w) => {
+    let level = 0;
+    if (w > 0) level = w <= max * 0.25 ? 1 : w <= max * 0.5 ? 2 : w <= max * 0.75 ? 3 : 4;
+    return '<span class="strip-cell l' + level + '" title="' + w + ' contributions"></span>';
+  }).join('');
+}
+
 async function main() {
   const [tpl, data] = await Promise.all([
     readFile(join(ROOT, 'templates', 'index.html'), 'utf8'),
@@ -85,10 +105,18 @@ async function main() {
 
   const now = Date.now();
   const profile = data.profile || {};
+  const weeks = Array.isArray(data.weeks) ? data.weeks : [];
+
+  const caption =
+    '<span>Last ' + weeks.length + ' weeks</span>' +
+    '<span>' + commas(profile.contributionsLastYear || 0) + ' contributions</span>';
 
   const html = tpl
     .replace('<!--FIGURES-->', figures(profile))
     .replace(/<!--REPO_COUNT-->/g, esc(profile.publicRepos || 0))
+    .replace('<!--ACTIVITY_STATS-->', activityStats(profile))
+    .replace('<!--ACTIVITY_CELLS-->', activityCells(weeks))
+    .replace('<!--ACTIVITY_CAPTION-->', caption)
     .replace('<!--PROJECTS-->', projects(data.featured || [], now))
     .replace('<!--POSTS-->', posts(data.posts || []))
     .replace(/<!--YEAR-->/g, String(new Date(now).getUTCFullYear()));
