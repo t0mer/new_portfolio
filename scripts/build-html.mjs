@@ -94,6 +94,12 @@ function activityStats(profile) {
   ).join('\n        ');
 }
 
+function israelRankBadge(r) {
+  if (!r || !r.rank) return '';
+  return '<div class="rank-badge"><span class="flag">\u{1F1EE}\u{1F1F1}</span> <b>#' +
+    esc(r.rank) + '</b> of ' + esc(commas(r.total)) + ' in Israel · public contributions</div>';
+}
+
 function dockerStats(docker) {
   docker = docker || {};
   const tiles = [
@@ -132,6 +138,7 @@ async function main() {
   const html = tpl
     .replace('<!--FIGURES-->', figures(profile))
     .replace(/<!--REPO_COUNT-->/g, esc(profile.publicRepos || 0))
+    .replace('<!--ISRAEL_RANK-->', israelRankBadge(data.israelRank))
     .replace('<!--ACTIVITY_STATS-->', activityStats(profile))
     .replace('<!--ACTIVITY_CELLS-->', activityCells(weeks))
     .replace('<!--ACTIVITY_CAPTION-->', caption)
