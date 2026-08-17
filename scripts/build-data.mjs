@@ -79,10 +79,27 @@ async function getContributions() {
       total += num;
     }
     const weekly = Object.keys(cols).map(Number).sort((a, b) => a - b).map((i) => cols[i]);
-    if (weekly.length === 0) return { contributionsLastYear: null, weeks: null };
-    return { contributionsLastYear: total, weeks: weekly.slice(-WEEKS) };
+    if (weekly.length === 0) return { contributionsLastYear: null, weeks: null, currentStreak: null, longestStreak: null };
+
+    // Daily active flags (date + level>0) for streaks. Cells are laid out
+    // row-major (by weekday), so sort by date before scanning.
+    const days = [];
+    const cre = /data-date="(\d{4}-\d{2}-\d{2})"[^>]*data-level="(\d+)"/g;
+    let c;
+    while ((c = cre.exec(html))) days.push({ date: c[1], active: Number(c[2]) > 0 });
+    days.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+
+    let longest = 0, run = 0;
+    for (const d of days) { if (d.active) { run++; if (run > longest) longest = run; } else run = 0; }
+
+    // Current streak, allowing today itself to have no contributions yet.
+    let current = 0, i = days.length - 1;
+    if (i >= 0 && !days[i].active) i--;
+    for (; i >= 0 && days[i].active; i--) current++;
+
+    return { contributionsLastYear: total, weeks: weekly, currentStreak: current, longestStreak: longest };
   } catch {
-    return { contributionsLastYear: null, weeks: null };
+    return { contributionsLastYear: null, weeks: null, currentStreak: null, longestStreak: null };
   }
 }
 
@@ -158,7 +175,7 @@ async function main() {
   try { profile = await getProfileAndStars(); }
   catch (e) { console.error('profile fetch failed:', e.message); profile = prev.profile || {}; }
 
-  const contrib = await getContributions().catch(() => ({ contributionsLastYear: null, weeks: null }));
+  const contrib = await getContributions().catch(() => ({ contributionsLastYear: null, weeks: null, currentStreak: null, longestStreak: null }));
   const prevProfile = prev.profile || {};
 
   const merged = {
@@ -167,6 +184,8 @@ async function main() {
       followers: profile.followers || prevProfile.followers || 0,
       totalStars: profile.totalStars || prevProfile.totalStars || 0,
       contributionsLastYear: keep(contrib.contributionsLastYear, prevProfile.contributionsLastYear, (v) => v == null),
+      currentStreak: keep(contrib.currentStreak, prevProfile.currentStreak, (v) => v == null),
+      longestStreak: keep(contrib.longestStreak, prevProfile.longestStreak, (v) => v == null),
     },
     featured: await getFeatured().catch((e) => { console.error('featured failed:', e.message); return prev.featured || []; }),
     weeks: keep(contrib.weeks, prev.weeks, (v) => !Array.isArray(v) || v.length === 0),
