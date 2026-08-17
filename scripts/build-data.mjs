@@ -25,7 +25,7 @@ const USER = 't0mer';
 const DOCKER_USER = 'techblog';
 const MEDIUM_FEED = 'https://medium.com/feed/@tomer.klein';
 const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
-const MAX_POSTS = 5;
+const MAX_POSTS = 6;
 const WEEKS = 26;
 
 const ghHeaders = {
