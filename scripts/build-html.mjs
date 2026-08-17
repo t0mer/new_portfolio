@@ -14,6 +14,12 @@ const esc = (s) => String(s)
 
 const compact = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n));
 const commas = (n) => Number(n).toLocaleString('en-US');
+const compactNum = (n) => {
+  n = Number(n) || 0;
+  if (n >= 1e6) return (n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(n >= 1e4 ? 0 : 1).replace(/\.0$/, '') + 'k';
+  return String(n);
+};
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 function fmtDate(iso) {
@@ -77,6 +83,38 @@ function posts(list) {
   )).join('\n        ');
 }
 
+function activityStats(profile) {
+  const tiles = [
+    { v: commas(profile.contributionsLastYear || 0), l: 'Contributions · year' },
+    { v: commas(profile.currentStreak || 0), l: 'Current streak · days' },
+    { v: commas(profile.longestStreak || 0), l: 'Longest streak · days' },
+  ];
+  return tiles.map((t) =>
+    '<div class="stat-tile"><b>' + esc(t.v) + '</b><span>' + esc(t.l) + '</span></div>'
+  ).join('\n        ');
+}
+
+function dockerStats(docker) {
+  docker = docker || {};
+  const tiles = [
+    { v: commas(docker.images || 0), l: 'Docker images' },
+    { v: commas(docker.stars || 0), l: 'Docker stars' },
+    { v: compactNum(docker.pulls || 0), l: 'Total pulls' },
+  ];
+  return tiles.map((t) =>
+    '<div class="stat-tile"><b>' + esc(t.v) + '</b><span>' + esc(t.l) + '</span></div>'
+  ).join('\n        ');
+}
+
+function activityCells(weeks) {
+  const max = Math.max(1, ...weeks);
+  return weeks.map((w) => {
+    let level = 0;
+    if (w > 0) level = w <= max * 0.25 ? 1 : w <= max * 0.5 ? 2 : w <= max * 0.75 ? 3 : 4;
+    return '<span class="strip-cell l' + level + '" title="' + w + ' contributions"></span>';
+  }).join('');
+}
+
 async function main() {
   const [tpl, data] = await Promise.all([
     readFile(join(ROOT, 'templates', 'index.html'), 'utf8'),
@@ -85,10 +123,19 @@ async function main() {
 
   const now = Date.now();
   const profile = data.profile || {};
+  const weeks = Array.isArray(data.weeks) ? data.weeks : [];
+
+  const caption =
+    '<span>Last ' + weeks.length + ' weeks</span>' +
+    '<span>' + commas(profile.contributionsLastYear || 0) + ' contributions</span>';
 
   const html = tpl
     .replace('<!--FIGURES-->', figures(profile))
     .replace(/<!--REPO_COUNT-->/g, esc(profile.publicRepos || 0))
+    .replace('<!--ACTIVITY_STATS-->', activityStats(profile))
+    .replace('<!--ACTIVITY_CELLS-->', activityCells(weeks))
+    .replace('<!--ACTIVITY_CAPTION-->', caption)
+    .replace('<!--DOCKER_STATS-->', dockerStats(data.docker))
     .replace('<!--PROJECTS-->', projects(data.featured || [], now))
     .replace('<!--POSTS-->', posts(data.posts || []))
     .replace(/<!--YEAR-->/g, String(new Date(now).getUTCFullYear()));

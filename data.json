@@ -1,10 +1,17 @@
 {
-  "generatedAt": "2026-08-16T23:01:40.950Z",
+  "generatedAt": "2026-08-17T00:26:44.641Z",
   "profile": {
     "publicRepos": 209,
     "followers": 201,
     "totalStars": 1147,
-    "contributionsLastYear": 2755
+    "contributionsLastYear": 2781,
+    "currentStreak": 2,
+    "longestStreak": 22
+  },
+  "docker": {
+    "images": 86,
+    "stars": 39,
+    "pulls": 2316097
   },
   "featured": [
     {
@@ -75,6 +82,33 @@
     }
   ],
   "weeks": [
+    4,
+    3,
+    4,
+    4,
+    0,
+    4,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    2,
+    23,
+    7,
+    20,
+    1,
+    11,
+    23,
+    16,
+    1,
+    9,
+    6,
+    20,
     0,
     0,
     10,
@@ -100,7 +134,7 @@
     154,
     2,
     0,
-    72
+    98
   ],
   "posts": [
     {
@@ -131,6 +165,12 @@
       "title": "Stop Guessing Which DNS Server Is Fastest - Measure It",
       "url": "https://medium.com/@tomer.klein/stop-guessing-which-dns-server-is-fastest-measure-it-e814cf9479fb",
       "publishedAt": "2026-08-05",
+      "readingMinutes": 12
+    },
+    {
+      "title": "AGHSync: Automatic Configuration Synchronization for AdGuard Home",
+      "url": "https://medium.com/@tomer.klein/aghsync-automatic-configuration-synchronization-for-adguard-home-5bf41358c056",
+      "publishedAt": "2026-08-03",
       "readingMinutes": 12
     }
   ]
