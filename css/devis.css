@@ -155,6 +155,14 @@ img { display: block; max-width: 100%; }
 .skill-fill { height: 100%; border-radius: 4px; background: var(--gold); }
 
 /* ── Activity ─────────────────────────────────────────────────────────── */
+.rank-badge {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: fit-content; margin: -34px auto 44px; padding: 9px 20px;
+  border-radius: 40px; font-size: 14px; color: var(--text);
+  background: rgba(254, 197, 68, 0.08); border: 1px solid rgba(254, 197, 68, 0.32);
+}
+.rank-badge b { color: var(--gold); font-weight: 700; }
+.rank-badge .flag { font-size: 15px; }
 .activity-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 40px; }
 .stat-tile { background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px; padding: 26px 22px; text-align: center; transition: border-color var(--transition); }
 .stat-tile:hover { border-color: var(--gold); }

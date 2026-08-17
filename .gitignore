@@ -16,3 +16,7 @@ CLAUDE.md
 .vscode/
 *.swp
 .DS_Store
+
+# Cloudflare Wrangler local state
+.wrangler/
+node_modules/
