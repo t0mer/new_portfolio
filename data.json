@@ -1,24 +1,23 @@
 {
-  "generatedAt": "2026-08-22T21:39:49.966Z",
+  "generatedAt": "2026-08-23T02:01:51.618Z",
   "profile": {
     "publicRepos": 209,
     "followers": 201,
     "totalStars": 1149,
-    "contributionsLastYear": 2855,
+    "contributionsLastYear": 2851,
     "currentStreak": 0,
     "longestStreak": 22
   },
   "docker": {
     "images": 86,
     "stars": 39,
-    "pulls": 2321188
+    "pulls": 2321375
   },
   "israelRank": {
     "rank": 58,
     "total": 767
   },
   "weeks": [
-    4,
     3,
     4,
     4,
@@ -70,7 +69,8 @@
     154,
     2,
     0,
-    172
+    172,
+    0
   ],
   "featured": [
     {
