@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-06T11:03:12.906Z",
+  "generatedAt": "2026-09-06T15:31:25.346Z",
   "profile": {
     "publicRepos": 213,
     "followers": 201,
-    "totalStars": 1152,
+    "totalStars": 1153,
     "contributionsLastYear": 3188,
     "currentStreak": 4,
     "longestStreak": 22
@@ -11,7 +11,7 @@
   "docker": {
     "images": 89,
     "stars": 39,
-    "pulls": 2335098
+    "pulls": 2335241
   },
   "israelRank": {
     "rank": 58,
