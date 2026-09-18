@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T11:23:27.980Z",
+  "generatedAt": "2026-09-18T16:29:35.636Z",
   "profile": {
     "publicRepos": 215,
     "followers": 200,
@@ -11,7 +11,7 @@
   "docker": {
     "images": 90,
     "stars": 39,
-    "pulls": 2348780
+    "pulls": 2348983
   },
   "israelRank": {
     "rank": 58,
@@ -114,7 +114,7 @@
         "Python",
         "DeepFace"
       ],
-      "stars": 65,
+      "stars": 66,
       "pushedAt": "2026-08-16T18:05:04Z"
     },
     {
