@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-09-28T14:05:16.592Z",
+  "generatedAt": "2026-09-28T21:15:41.963Z",
   "profile": {
-    "publicRepos": 223,
+    "publicRepos": 224,
     "followers": 201,
     "totalStars": 1168,
-    "contributionsLastYear": 3694,
+    "contributionsLastYear": 3760,
     "currentStreak": 7,
     "longestStreak": 22
   },
   "docker": {
     "images": 90,
     "stars": 39,
-    "pulls": 2359176
+    "pulls": 2359432
   },
   "israelRank": {
     "rank": 58,
@@ -70,7 +70,7 @@
     75,
     0,
     401,
-    40
+    106
   ],
   "featured": [
     {
@@ -82,7 +82,7 @@
         "Docker"
       ],
       "stars": 324,
-      "pushedAt": "2026-09-11T01:10:38Z"
+      "pushedAt": "2026-09-28T20:36:33Z"
     },
     {
       "name": "green-api-custom-notifier",
