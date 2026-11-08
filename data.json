@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-07T19:28:33.602Z",
+  "generatedAt": "2026-11-08T00:42:37.350Z",
   "profile": {
     "publicRepos": 229,
     "followers": 204,
@@ -11,14 +11,13 @@
   "docker": {
     "images": 94,
     "stars": 39,
-    "pulls": 2413297
+    "pulls": 2413707
   },
   "israelRank": {
     "rank": 58,
     "total": 767
   },
   "weeks": [
-    0,
     1,
     1,
     0,
@@ -70,7 +69,8 @@
     254,
     33,
     107,
-    118
+    118,
+    0
   ],
   "featured": [
     {
