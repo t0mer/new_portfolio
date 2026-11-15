@@ -1,24 +1,23 @@
 {
-  "generatedAt": "2026-11-14T22:31:44.088Z",
+  "generatedAt": "2026-11-15T06:43:32.706Z",
   "profile": {
     "publicRepos": 231,
-    "followers": 206,
-    "totalStars": 1205,
-    "contributionsLastYear": 4800,
+    "followers": 207,
+    "totalStars": 1206,
+    "contributionsLastYear": 4799,
     "currentStreak": 1,
     "longestStreak": 22
   },
   "docker": {
     "images": 94,
     "stars": 39,
-    "pulls": 2424815
+    "pulls": 2425218
   },
   "israelRank": {
     "rank": 58,
     "total": 767
   },
   "weeks": [
-    1,
     1,
     0,
     2,
@@ -70,7 +69,8 @@
     33,
     107,
     118,
-    46
+    46,
+    0
   ],
   "featured": [
     {
@@ -92,7 +92,7 @@
         "Python",
         "WhatsApp"
       ],
-      "stars": 87,
+      "stars": 88,
       "pushedAt": "2026-10-17T21:20:14Z"
     },
     {
